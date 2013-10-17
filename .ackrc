@@ -1,2 +1,3 @@
 --type-set
 php=.php,.module,.inc
+css=.css,.scss,.sass

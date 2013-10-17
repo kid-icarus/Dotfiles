@@ -1,39 +1,41 @@
-"Forget compatibility with Vi. Who cares.
-noremap <leader>z :!say 'hey dudes'<CR>
-set nocompatible
+if has('vim_starting')
+  set nocompatible
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+set encoding=utf-8
+set fileencoding=utf-8
 set comments=sr:/**,m:*\ ,ex:*/,://
-call pathogen#infect()
+set number
+
 "Enable filetypes
 filetype on
 filetype plugin on
 filetype indent on
 syntax on
 
+"folding
+set foldenable
 set foldmethod=indent
 set foldlevelstart=99
 
-" Set colorscheme
-colorscheme solarized
-"call togglebg#map("<F5>")
-" Mapping to switch light/dark background
-nmap ]g :ToggleBG<CR>
 
-" vim-gitgutter mappings
-nmap ]h :GitGutterNextHunk<CR>
-nmap [h :GitGutterPrevHunk<CR>
+set splitbelow
 
 "Write the old file out when switching between files.
 set autowrite
 
 "Display current cursor position in lower right corner.
 set ruler
-
-"Ever notice a slight lag after typing the leader key + command? This lowers
-"the timeout.
 set timeoutlen=500
 
-"Switch between buffers without saving
 set hidden
+
+"Indent stuff
+set smartindent
+set autoindent
 
 "Tab stuff
 set tabstop=2
@@ -45,81 +47,44 @@ au FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 "Show command in bottom right portion of the screen
 set showcmd
 
-"Show lines numbers
-set number
+let mapleader=","
 
-"Indent stuff
-set smartindent
-set autoindent
-
-"Always show the status line
-set laststatus=2
 
 "Prefer a slightly higher line height
-set linespace=3
+" set linespace=3
 
 "Better line wrapping
 set wrap
 set textwidth=79
 set formatoptions=qrn1
 
-"Set incremental searching"
+"search stuff
 set incsearch
-
-"Highlight searching
 set hlsearch
-
-" case insensitive search
 set ignorecase
 set smartcase
 
-"Hard-wrap paragraphs of text
-nnoremap <leader>q gqip
 
-"Enable code folding
-set foldenable
-
-"Hide mouse when typing
-set mousehide
-
-"Session settings
+"session
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 
-"Set up an HTML5 template for all new .html files
-"autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
-
-"Load the current buffer in Firefox - Mac specific.
+"abbrev
 abbrev ff :! open -a firefox.app %:p<cr>
 
-"Shortcut for editing vimrc file in a new tab
-nmap <leader>ev :tabedit $MYVIMRC<cr>
+"maps
+nnoremap <space> :
+nnoremap <leader>q gqip
+nnoremap <leader>z f,a<cr><esc>
+nnoremap ]g :set background=dark<cr>
+nnoremap ]z :set background=light<cr>
+nnoremap <c-u> viWUEa
+nnoremap <leader>ev :vsp $VIMRC<cr>
+nnoremap <leader>es :source $VIMRC<cr>
+inoremap jk <esc>
 
-"Saves time; maps the spacebar to colon
-nmap <space> :
+"autcomd
+autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
 
-"Map escape key to jj -- much faster
-imap jj <esc>
-
-"Delete all buffers (via Derek Wyatt)
-nmap <silent> <leader>da :exec "1," . bufnr('$') . "bd"<cr>
-
-"------------------------"
-"NERDTREE PLUGIN SETTINGS
-"------------------------"
-"Shortcut for NERDTreeToggle
-nmap <leader>nt :NERDTree<CR>
-
-"Show hidden files in NerdTree
-let NERDTreeShowHidden=1
-
-"--------------------------"
-" PERSONAL SETTINGS
-" -------------------------"
-
-" Snipmate
-"For autocompletion of Snipmate plugin
-let g:acp_behaviorSnipmateLength = 1
-:filetype plugin on
 
 " Custom Solarized stuff.
 let g:thing = $SOLARIZED_THEME
@@ -130,8 +95,8 @@ let g:solarized_termtrans = 1
 
 " Yank text to the OS X clipboard
 set clipboard=unnamed
-noremap <leader>y "+y
-noremap <leader>yy "+yy
+noremap y "+y
+noremap yy "+yy
 
 " Preserve indentation while pasting text from the OS X clipboard
 noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
@@ -141,8 +106,7 @@ nmap <CR> :nohlsearch<CR>
 autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
 
 " A fancy status bar
-let g:Powerline_symbols = 'fancy'
-"set t_Co=256
+" set t_Co=256
 set backspace=2 "
 
 " Delimate settings
@@ -161,36 +125,8 @@ nmap <leader>l :set list!<CR>
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬
 
-" Set tabstop, softtabstop and shiftwidth to the same value
-command! -nargs=* Stab call Stab()
-function! Stab()
-  let l:tabstop = 1 * input('set tabstop = softtabstop = shiftwidth = ')
-  if l:tabstop > 0
-    let &l:sts = l:tabstop
-    let &l:ts = l:tabstop
-    let &l:sw = l:tabstop
-  endif
-  call SummarizeTabs()
-endfunction
-
-function! SummarizeTabs()
-  try
-    echohl ModeMsg
-    echon 'tabstop='.&l:ts
-    echon ' shiftwidth='.&l:sw
-    echon ' softtabstop='.&l:sts
-    if &l:et
-      echon ' expandtab'
-    else
-      echon ' noexpandtab'
-    endif
-  finally
-    echohl None
-  endtry
-endfunction'
-
 " PHP Shit
-let g:blockify_pairs = { 'php.drupal': [ '{', '}' ] }
+let g:blockify_pairs = { 'php': [ '{', '}' ] }
 
 " Write/quit aliases
 :command WQ wq
@@ -201,5 +137,87 @@ let g:blockify_pairs = { 'php.drupal': [ '{', '}' ] }
 "let g:vdebug_options['path_maps'] = {"/var/www/html": "/Users/ryankois/Sites/jaars.dev/jaars"}
 "let g:vdebug_options['break_on_open'] = 0
 "let g:syntastic_javascript_checkers=['jshint']
+"let g:syntastic_php_phpcs_args='--standard=Drupal'
+let g:syntastic_php_checkers=['php', 'phpcs', 'phpmd']
 
+
+nnoremap <leader>nt :NERDTreeToggle<cr>
+"Markdown to HTML  
+nnoremap <leader>md :%!/usr/local/bin/markdown <cr>  
+
+inoremap <c-u> <esc>viWUEa
+nmap <F8> :TagbarToggle<CR>
+
+
+
+"""""""""""""""""""""""""""""""""""""
+"        _             _            "
+"  _ __ | |_   _  __ _(_)_ __  ___  "
+" | '_ \| | | | |/ _` | | '_ \/ __| "
+" | |_) | | |_| | (_| | | | | \__ \ "
+" | .__/|_|\__,_|\__, |_|_| |_|___/ " 
+" |_|            |___/              "
+"                                   "
+"""""""""""""""""""""""""""""""""""""
+" NeoBundle
+"Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'bkad/CamelCaseMotion'
+NeoBundle 'theunraveler/Drupal-Snippets-for-Vim'
+NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'mileszs/ack.vim'
+NeoBundle 'vim-scripts/argtextobj.vim'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'sanguis/drupal-snippets'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'kid-icarus/icarus_snipz'
+NeoBundle 'juvenn/mustache.vim'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'honza/snipmate-snippets'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'marijnh/tern_for_vim'
+NeoBundle 'tomtom/tlib_vim'
+NeoBundle 'davidoc/todo.txt-vim'
+NeoBundle 'joonty/vdebug'
+NeoBundle 'MarcWeber/vim-addon-mw-utils'
+NeoBundle 'mhinz/vim-blockify'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'tpope/vim-eunuch'
+NeoBundle 'dahu/vim-fanfingtastic'
+NeoBundle 'jelera/vim-javascript-syntax'
+NeoBundle 'Lokaltog/vim-powerline'
+NeoBundle 'rodjek/vim-puppet'
+NeoBundle 'mhinz/vim-signify'
+NeoBundle 'garbas/vim-snipmate'
+NeoBundle 'beyondwords/vim-twig'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-markdown'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-tbone'
+NeoBundle 'tpope/vim-unimpaired'
+NeoBundle 'mikewest/vimroom'
+NeoBundle 'http://git.drupal.org/project/vimrc.git'
+NeoBundle 'Shougo/vimproc'
+
+"Syntastic
+let g:syntastic_error_symbol="💩"
+let g:syntastic_style_error_symbol="🍔"
+
+"Powerline
+set laststatus=2
+let g:Powerline_symbols = 'fancy'
+
+"signify
 let g:signify_sign_overwrite = 0
+
+" Snipmate
+"For autocompletion of Snipmate plugin
+let g:acp_behaviorSnipmateLength = 1
+":filetype plugin on
+imap <C-J> <esc>a<Plug>snipMateNextOrTrigger
+smap <C-J> <Plug>snipMateNextOrTrigger
+colorscheme solarized

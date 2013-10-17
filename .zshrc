@@ -1,50 +1,30 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-PATH=/usr/local/bin:/usr/local/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/php5/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ryankois/.rvm/bin:/Users/ryankois/.rvm/gems/ruby-1.9.3-p194/bin
+
+PATH=/Users/ryankois/.rvm/gems/ruby-1.9.3-p194/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/php5/bin:/Users/ryankois/.rvm/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+
+#export ZSH_TMUX_AUTOSTART="true"
+#export ZSH_TMUX_AUTOCONNECT="true"
 
 # Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
 ZSH_THEME="agnoster"
-#eval `dircolors ~/solarized/dircolors.256dark`
 eval `dircolors ~/solarized/dircolors.256dark`
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+COMPLETION_WAITING_DOTS="true"
 
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
- COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(drush git vi-mode autojump rvm rake ruby composer vagrant brew sprunge cloudapp)
+#PLUGINSSSSS
+plugins=(colored-man tmux tmuxinator drush git vi-mode fasd rvm rake ruby composer vagrant brew sprunge cloudapp)
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-# export PATH=/usr/local/php5/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
-# PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-#random aliases
-alias drupalcs='phpcs --standard=/Users/ryankois/.drush/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
-alias t='todo.sh'
-# alias j='autojump'
+#Plugin conf
+bindkey "jk" vi-cmd-mode
 
-# Colors I'm liking
-# export CLICOLOR=1
-# export LSCOLORS=Exfxcxdxbxegedabagacad
+EDITOR='vim'
+
+#Random crap
+[[ -s $HOME/.tmuxinator/scripts/tmuxinator  ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+source $HOME/t/etc/t-completion.zsh
+
+export DISABLE_AUTO_TITLE="true"
 
 # Some crazy color stuff
 GRC=`which grc`
@@ -63,13 +43,36 @@ then
     alias ping='colourify ping'
     alias traceroute='colourify /usr/sbin/traceroute'
 fi
+
+#random aliases
+alias drupalcs='phpcs --standard=/Users/ryankois/.drush/coder/coder_sniffer/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
+alias vi=vim
+alias t='todo.sh'
 alias d4='php /Users/ryankois/drush4/drush.php'
 alias ssh='TERM=xterm ssh'
 alias sudo='sudo env PATH=$PATH'
 alias phpini='vim /usr/local/php5/lib/php.ini'
+alias dark='SOLARIZED_THEME=dark'
+alias light='SOLARIZED_THEME=light'
 
-bindkey "jj" vi-cmd-mode
+#Vagrant stuff
+alias vu="vagrant up"
+alias vd="vagrant destroy"
+alias vh="vagrant halt"
+alias vr="vagrant reload"
+alias vst="vagrant status"
+alias vs="vagrant ssh"
+alias vp="vagrant provision"
 alias vssh='TERM=xterm vagrant ssh'
+alias dsync="drush sql-sync --structure-tables-key=common"
+alias camp="php ~/Project/camp/src/camp.php"
+alias gap='git apply'
 
-EDITOR='vim'
-[[ -s $HOME/.tmuxinator/scripts/tmuxinator  ]] && source $HOME/.tmuxinator/scripts/tmuxinator
+#Pomodoro stuff
+alias p='pomo'
+alias pls='pomo ls'
+alias plsa='pomo ls --all'
+alias pa='pomo add'
+alias prm='pomo rm'
+alias pinc='pomo incomplete'
+alias psta='pomo start'
