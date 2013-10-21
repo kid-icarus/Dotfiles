@@ -95,7 +95,7 @@ let g:solarized_termtrans = 1
 
 " Yank text to the OS X clipboard
 set clipboard=unnamed
-noremap y "+y
+noremap y "*y
 noremap yy "+yy
 
 " Preserve indentation while pasting text from the OS X clipboard
@@ -106,7 +106,7 @@ nmap <CR> :nohlsearch<CR>
 autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
 
 " A fancy status bar
-" set t_Co=256
+set t_Co=256
 set backspace=2 "
 
 " Delimate settings
@@ -164,7 +164,7 @@ nmap <F8> :TagbarToggle<CR>
 NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'bkad/CamelCaseMotion'
 NeoBundle 'theunraveler/Drupal-Snippets-for-Vim'
-NeoBundle 'Valloric/YouCompleteMe'
+" NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'mileszs/ack.vim'
 NeoBundle 'vim-scripts/argtextobj.vim'
 NeoBundle 'kien/ctrlp.vim'
@@ -178,17 +178,18 @@ NeoBundle 'honza/snipmate-snippets'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'marijnh/tern_for_vim'
+"NeoBundle 'marijnh/tern_for_vim'
 NeoBundle 'tomtom/tlib_vim'
 NeoBundle 'davidoc/todo.txt-vim'
 NeoBundle 'joonty/vdebug'
+NeoBundle 'bling/vim-airline'
 NeoBundle 'MarcWeber/vim-addon-mw-utils'
 NeoBundle 'mhinz/vim-blockify'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tpope/vim-eunuch'
 NeoBundle 'dahu/vim-fanfingtastic'
 NeoBundle 'jelera/vim-javascript-syntax'
-NeoBundle 'Lokaltog/vim-powerline'
+"NeoBundle 'Lokaltog/vim-powerline'
 NeoBundle 'rodjek/vim-puppet'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'garbas/vim-snipmate'
@@ -209,7 +210,7 @@ let g:syntastic_style_error_symbol="🍔"
 
 "Powerline
 set laststatus=2
-let g:Powerline_symbols = 'fancy'
+"let g:Powerline_symbols = 'fancy'
 
 "signify
 let g:signify_sign_overwrite = 0
@@ -221,3 +222,5 @@ let g:acp_behaviorSnipmateLength = 1
 imap <C-J> <esc>a<Plug>snipMateNextOrTrigger
 smap <C-J> <Plug>snipMateNextOrTrigger
 colorscheme solarized
+set background=dark
+let g:airline_powerline_fonts=1

@@ -8,12 +8,13 @@ PATH=/Users/ryankois/.rvm/gems/ruby-1.9.3-p194/bin:/usr/local/opt/coreutils/libe
 
 # Set name of the theme to load.
 ZSH_THEME="agnoster"
-eval `dircolors ~/solarized/dircolors.256dark`
+#eval `dircolors ~/solarized/dircolors.256dark`
 COMPLETION_WAITING_DOTS="true"
 
 #PLUGINSSSSS
 plugins=(colored-man tmux tmuxinator drush git vi-mode fasd rvm rake ruby composer vagrant brew sprunge cloudapp)
 source $ZSH/oh-my-zsh.sh
+source /usr/share/zsh/site-contrib/powerline.zsh
 
 #Plugin conf
 bindkey "jk" vi-cmd-mode
@@ -22,7 +23,7 @@ EDITOR='vim'
 
 #Random crap
 [[ -s $HOME/.tmuxinator/scripts/tmuxinator  ]] && source $HOME/.tmuxinator/scripts/tmuxinator
-source $HOME/t/etc/t-completion.zsh
+#source $HOME/t/etc/t-completion.zsh
 
 export DISABLE_AUTO_TITLE="true"
 
