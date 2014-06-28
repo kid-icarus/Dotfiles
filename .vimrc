@@ -1,26 +1,20 @@
-if has('vim_starting')
-  set nocompatible
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
-call neobundle#rc(expand('~/.vim/bundle/'))
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
 
 set encoding=utf-8
 set fileencoding=utf-8
 set comments=sr:/**,m:*\ ,ex:*/,://
 set number
-
-"Enable filetypes
-filetype on
-filetype plugin on
-filetype indent on
-syntax on
+" set relativenumber
 
 "folding
 set foldenable
 set foldmethod=indent
 set foldlevelstart=99
 
+"Spell Checking
+set spelllang=en_us
 
 set splitbelow
 
@@ -49,10 +43,6 @@ set showcmd
 
 let mapleader=","
 
-
-"Prefer a slightly higher line height
-" set linespace=3
-
 "Better line wrapping
 set wrap
 set textwidth=79
@@ -64,20 +54,16 @@ set hlsearch
 set ignorecase
 set smartcase
 
-
 "session
 set sessionoptions=resize,winpos,winsize,buffers,tabpages,folds,curdir,help
 
-"abbrev
-abbrev ff :! open -a firefox.app %:p<cr>
-
 "maps
 nnoremap <space> :
-nnoremap <leader>q gqip
+nmap <leader>q ysiw'
+nmap <silent><leader>s :set spell!<CR>
 nnoremap <leader>z f,a<cr><esc>
 nnoremap ]g :set background=dark<cr>
 nnoremap ]z :set background=light<cr>
-nnoremap <c-u> viWUEa
 nnoremap <leader>ev :vsp $VIMRC<cr>
 nnoremap <leader>es :source $VIMRC<cr>
 inoremap jk <esc>
@@ -85,7 +71,7 @@ inoremap jk <esc>
 "autcomd
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
 
-
+set background=dark
 " Custom Solarized stuff.
 let g:thing = $SOLARIZED_THEME
 if (thing == "dark")
@@ -94,9 +80,10 @@ endif
 let g:solarized_termtrans = 1
 
 " Yank text to the OS X clipboard
-set clipboard=unnamed
-noremap y "+y
-noremap yy "+yy
+" set clipboard=unnamed
+" noremap y "+y
+" noremap yy "+yy
+" noremap p "+p
 
 " Preserve indentation while pasting text from the OS X clipboard
 noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
@@ -106,7 +93,7 @@ nmap <CR> :nohlsearch<CR>
 autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
 
 " A fancy status bar
-" set t_Co=256
+set t_Co=256
 set backspace=2 "
 
 " Delimate settings
@@ -159,65 +146,87 @@ nmap <F8> :TagbarToggle<CR>
 " |_|            |___/              "
 "                                   "
 """""""""""""""""""""""""""""""""""""
-" NeoBundle
-"Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-NeoBundle 'bkad/CamelCaseMotion'
-NeoBundle 'theunraveler/Drupal-Snippets-for-Vim'
-NeoBundle 'Valloric/YouCompleteMe'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'vim-scripts/argtextobj.vim'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'sanguis/drupal-snippets'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 'kid-icarus/icarus_snipz'
-NeoBundle 'juvenn/mustache.vim'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'honza/snipmate-snippets'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'marijnh/tern_for_vim'
-NeoBundle 'tomtom/tlib_vim'
-NeoBundle 'davidoc/todo.txt-vim'
-NeoBundle 'joonty/vdebug'
-NeoBundle 'MarcWeber/vim-addon-mw-utils'
-NeoBundle 'mhinz/vim-blockify'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'tpope/vim-eunuch'
-NeoBundle 'dahu/vim-fanfingtastic'
-NeoBundle 'jelera/vim-javascript-syntax'
-NeoBundle 'Lokaltog/vim-powerline'
-NeoBundle 'rodjek/vim-puppet'
-NeoBundle 'mhinz/vim-signify'
-NeoBundle 'garbas/vim-snipmate'
-NeoBundle 'beyondwords/vim-twig'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-markdown'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-tbone'
-NeoBundle 'tpope/vim-unimpaired'
-NeoBundle 'mikewest/vimroom'
-NeoBundle 'http://git.drupal.org/project/vimrc.git'
-NeoBundle 'Shougo/vimproc'
+" VUNDLE
+Bundle 'gmarik/vundle'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'bkad/CamelCaseMotion'
+Bundle 'mileszs/ack.vim'
+Bundle 'vim-scripts/argtextobj.vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'Raimondi/delimitMate'
+Bundle 'sjl/gundo.vim'
+Bundle 'juvenn/mustache.vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'honza/vim-snippets'
+Bundle 'scrooloose/syntastic'
+Bundle 'majutsushi/tagbar'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'marijnh/tern_for_vim'
+Bundle 'tomtom/tlib_vim'
+Bundle 'davidoc/todo.txt-vim'
+Bundle 'joonty/vdebug'
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'mhinz/vim-blockify'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tpope/vim-eunuch'
+Bundle 'dahu/vim-fanfingtastic'
+" JS Plugins
+Bundle 'jelera/vim-javascript-syntax'
+Bundle 'JavaScript-Indent'
+Bundle 'othree/javascript-libraries-syntax.vim'
+Bundle 'bling/vim-airline'
+Bundle 'rodjek/vim-puppet'
+Bundle 'mhinz/vim-signify'
+Bundle 'beyondwords/vim-twig'
+Bundle 'krisajenkins/dbext.vim'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-tbone'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'mikewest/vimroom'
+" Bundle 'http://git.drupal.org/project/vimrc.git'
+Bundle 'Shougo/vimproc'
+Bundle 'SirVer/ultisnips'
+Bundle 'ntpeters/vim-better-whitespace'
+Bundle 'sanguis/drupal-snippets'
+Bundle 'tpope/vim-characterize'
+
+" Clojure stuff
+Bundle 'tpope/vim-fireplace'
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'guns/vim-clojure-static'
+" Bundle 'Slava/vim-colors-tomorrow'
+"Enable filetypes
+filetype on
+filetype plugin on
+filetype indent on
+syntax on
 
 "Syntastic
-let g:syntastic_error_symbol="💩"
-let g:syntastic_style_error_symbol="🍔"
+" let g:syntastic_error_symbol="💩"
+" let g:syntastic_style_error_symbol="🍔"
 
 "Powerline
 set laststatus=2
-let g:Powerline_symbols = 'fancy'
+" let g:Powerline_symbols = 'fancy'
 
 "signify
 let g:signify_sign_overwrite = 0
 
-" Snipmate
-"For autocompletion of Snipmate plugin
-let g:acp_behaviorSnipmateLength = 1
-":filetype plugin on
-imap <C-J> <esc>a<Plug>snipMateNextOrTrigger
-smap <C-J> <Plug>snipMateNextOrTrigger
+" Ultisnip Triggers
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" let g:UltiSnipsListSnippets="<c-tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>" 
+
+
+" Tern
+let g:tern_map_keys=1
+
 colorscheme solarized
+nmap <leader>z ys$"ys$}li"content": "<esc>$i, "tags": []}<esc>j0
+
