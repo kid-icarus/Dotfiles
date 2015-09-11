@@ -1,6 +1,7 @@
+set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 set encoding=utf-8
 set fileencoding=utf-8
@@ -64,12 +65,12 @@ nmap <silent><leader>s :set spell!<CR>
 nnoremap <leader>z f,a<cr><esc>
 nnoremap ]g :set background=dark<cr>
 nnoremap ]z :set background=light<cr>
-nnoremap <leader>ev :vsp $VIMRC<cr>
-nnoremap <leader>es :source $VIMRC<cr>
+nnoremap <leader>nt :NERDTreeToggle<cr>
 inoremap jk <esc>
 
 "autcomd
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 
 set background=dark
 " Custom Solarized stuff.
@@ -80,10 +81,10 @@ endif
 let g:solarized_termtrans = 1
 
 " Yank text to the OS X clipboard
-" set clipboard=unnamed
-" noremap y "+y
-" noremap yy "+yy
-" noremap p "+p
+set clipboard=unnamed
+noremap y "+y
+noremap yy "+yy
+noremap p "+p
 
 " Preserve indentation while pasting text from the OS X clipboard
 noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
@@ -99,21 +100,15 @@ set backspace=2 "
 " Delimate settings
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
-if !exists(":Drta")
-  command Drta !drush ws --tail
-endif
 
 " Random stuff
 set colorcolumn=80
 
 " Shortcut to rapidly toggle `set list`
 nmap <leader>l :set list!<CR>
- 
+
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬
-
-" PHP Shit
-let g:blockify_pairs = { 'php': [ '{', '}' ] }
 
 " Write/quit aliases
 :command WQ wq
@@ -121,21 +116,11 @@ let g:blockify_pairs = { 'php': [ '{', '}' ] }
 :command W w
 :command Q q
 
-"let g:vdebug_options['path_maps'] = {"/var/www/html": "/Users/ryankois/Sites/jaars.dev/jaars"}
-"let g:vdebug_options['break_on_open'] = 0
-"let g:syntastic_javascript_checkers=['jshint']
-"let g:syntastic_php_phpcs_args='--standard=Drupal'
-let g:syntastic_php_checkers=['php', 'phpcs', 'phpmd']
-
-
-nnoremap <leader>nt :NERDTreeToggle<cr>
 "Markdown to HTML  
 nnoremap <leader>md :%!/usr/local/bin/markdown <cr>  
 
 inoremap <c-u> <esc>viWUEa
 nmap <F8> :TagbarToggle<CR>
-
-
 
 """""""""""""""""""""""""""""""""""""
 "        _             _            "
@@ -147,70 +132,65 @@ nmap <F8> :TagbarToggle<CR>
 "                                   "
 """""""""""""""""""""""""""""""""""""
 " VUNDLE
-Bundle 'gmarik/vundle'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'bkad/CamelCaseMotion'
-Bundle 'mileszs/ack.vim'
-Bundle 'vim-scripts/argtextobj.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'Raimondi/delimitMate'
-Bundle 'sjl/gundo.vim'
-Bundle 'juvenn/mustache.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'honza/vim-snippets'
-Bundle 'scrooloose/syntastic'
-Bundle 'majutsushi/tagbar'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'marijnh/tern_for_vim'
-Bundle 'tomtom/tlib_vim'
-Bundle 'davidoc/todo.txt-vim'
-Bundle 'joonty/vdebug'
-Bundle 'MarcWeber/vim-addon-mw-utils'
-Bundle 'mhinz/vim-blockify'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-eunuch'
-Bundle 'dahu/vim-fanfingtastic'
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'bkad/CamelCaseMotion'
+Plugin 'vim-scripts/argtextobj.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'sjl/gundo.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'majutsushi/tagbar'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'tomtom/tlib_vim'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+
+" General crap
+Plugin 'bling/vim-airline'
+Plugin 'mhinz/vim-signify'
+
+" Tpope
+Plugin 'tpope/vim-eunuch'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-tbone'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'Shougo/vimproc'
+
+" Snippets
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'tpope/vim-characterize'
+Plugin 'vim-scripts/glsl.vim'
+Plugin 'scrooloose/nerdtree'
+
+" Colorschemes
+Plugin 'morhetz/gruvbox'
+Plugin 'altercation/vim-colors-solarized'
+
 " JS Plugins
-Bundle 'jelera/vim-javascript-syntax'
-Bundle 'JavaScript-Indent'
-Bundle 'othree/javascript-libraries-syntax.vim'
-Bundle 'bling/vim-airline'
-Bundle 'rodjek/vim-puppet'
-Bundle 'mhinz/vim-signify'
-Bundle 'beyondwords/vim-twig'
-Bundle 'krisajenkins/dbext.vim'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-tbone'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'mikewest/vimroom'
-" Bundle 'http://git.drupal.org/project/vimrc.git'
-Bundle 'Shougo/vimproc'
-Bundle 'SirVer/ultisnips'
-Bundle 'ntpeters/vim-better-whitespace'
-Bundle 'sanguis/drupal-snippets'
-Bundle 'tpope/vim-characterize'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'JavaScript-Indent'
+Plugin 'othree/javascript-libraries-syntax.vim'
 
 " Clojure stuff
-Bundle 'tpope/vim-fireplace'
-Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'guns/vim-clojure-static'
-" Bundle 'Slava/vim-colors-tomorrow'
+Plugin 'tpope/vim-fireplace'
+Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'guns/vim-clojure-static'
 "Enable filetypes
+call vundle#end()
 filetype on
 filetype plugin on
 filetype indent on
 syntax on
 
-"Syntastic
-" let g:syntastic_error_symbol="💩"
-" let g:syntastic_style_error_symbol="🍔"
-
-"Powerline
 set laststatus=2
-" let g:Powerline_symbols = 'fancy'
 
 "signify
 let g:signify_sign_overwrite = 0
@@ -227,6 +207,6 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " Tern
 let g:tern_map_keys=1
 
-colorscheme solarized
+colorscheme gruvbox
 nmap <leader>z ys$"ys$}li"content": "<esc>$i, "tags": []}<esc>j0
-
+nnoremap dp :diffput<cr>
