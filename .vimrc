@@ -1,5 +1,3 @@
-set nocompatible
-
 call plug#begin('~/.vim/plugged')
 Plug 'VundleVim/Vundle.vim'
 Plug 'pmsorhaindo/syntastic-local-eslint.vim'
@@ -62,36 +60,14 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "let g:tern_map_keys=1
 
-" keybindings/maps
-inoremap jk <esc>
-nnoremap <space> :
-nmap <leader>q ysiw'
-nmap <silent><leader>s :set spell!<CR>
-nnoremap <leader>nt :NERDTreeToggle<cr>
-nmap <leader>l :set list!<CR>
-" find comma, append newline after comma
-nnoremap <leader>z f,a<cr><esc>
-" Use Return key to clear search highlighting
-nmap <CR> :nohlsearch<CR>
-autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
-" Preserve indentation while pasting text from the OS X clipboard
-noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
-nmap <F8> :TagbarToggle<CR>
-nmap <leader>z ys$"ys$}li"content": "<esc>$i, "tags": []}<esc>j0
-nnoremap dp :diffput<cr>
-"auto command stuff.
-autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
-au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
-au FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-
-""""""""""""" SETTINGS
+" SETTINGS
+set nocompatible
 filetype on
 filetype plugin on
 filetype indent on
 syntax on
 colorscheme gruvbox
 let mapleader=","
-
 set background=dark
 set encoding=utf-8
 set fileencoding=utf-8
@@ -137,3 +113,26 @@ set ignorecase
 set smartcase
 "Show command in bottom right portion of the screen
 set showcmd
+
+" keybindings/maps
+inoremap jk <esc>
+nnoremap <space> :
+nmap <leader>q ysiw'
+nmap <silent><leader>s :set spell!<CR>
+nnoremap <leader>nt :NERDTreeToggle<cr>
+nmap <leader>l :set list!<CR>
+" find comma, append newline after comma
+nnoremap <leader>z f,a<cr><esc>
+" Use Return key to clear search highlighting
+nmap <CR> :nohlsearch<CR>
+autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
+" Preserve indentation while pasting text from the OS X clipboard
+noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
+nmap <F8> :TagbarToggle<CR>
+nmap <leader>z ys$"ys$}li"content": "<esc>$i, "tags": []}<esc>j0
+nnoremap dp :diffput<cr>
+"auto command stuff.
+autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
+au FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
