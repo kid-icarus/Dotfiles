@@ -1,5 +1,4 @@
 call plug#begin('~/.vim/plugged')
-Plug 'VundleVim/Vundle.vim'
 Plug 'pmsorhaindo/syntastic-local-eslint.vim'
 Plug 'Valloric/YouCompleteMe'
 Plug 'bkad/CamelCaseMotion'
