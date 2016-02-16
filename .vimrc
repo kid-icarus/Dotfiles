@@ -31,6 +31,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-characterize'
 Plug 'vim-scripts/glsl.vim'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 " Colorschemes
 Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
