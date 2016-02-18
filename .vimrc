@@ -13,7 +13,7 @@ Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
 " General crap
 Plug 'bling/vim-airline'
-Plug 'mhinz/vim-signify'
+Plug 'airblade/vim-gitgutter'
 " Tpope
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -113,6 +113,7 @@ set ignorecase
 set smartcase
 "Show command in bottom right portion of the screen
 set showcmd
+set updatetime=250
 
 " keybindings/maps
 inoremap jk <esc>
