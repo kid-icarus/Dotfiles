@@ -59,6 +59,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "let g:tern_map_keys=1
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
 
 " SETTINGS
 set nocompatible
@@ -68,7 +70,7 @@ filetype indent on
 syntax on
 colorscheme gruvbox
 let mapleader=","
-set background=dark
+set background=light
 set encoding=utf-8
 set fileencoding=utf-8
 set comments=sr:/**,m:*\ ,ex:*/,://
@@ -100,7 +102,7 @@ set t_Co=256
 set backspace=2 "
 set colorcolumn=80
 set listchars=tab:▸\ ,eol:¬
-set clipboard=unnamedplus
+set clipboard=unnamed
 set laststatus=2
 "Better line wrapping
 set wrap
