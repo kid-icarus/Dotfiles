@@ -45,6 +45,7 @@ Plug 'othree/yajs.vim'
 Plug 'tpope/vim-fireplace'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'guns/vim-clojure-static'
+Plug 'schickling/vim-bufonly'
 call plug#end()
 
 " Plugin settings
