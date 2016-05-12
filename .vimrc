@@ -48,6 +48,8 @@ Plug 'guns/vim-clojure-static'
 Plug 'schickling/vim-bufonly'
 call plug#end()
 
+let mapleader=","
+call camelcasemotion#CreateMotionMappings('<leader>')
 " Plugin settings
 let g:syntastic_javascript_checkers = ['eslint']
 let delimitMate_expand_cr = 1
@@ -70,7 +72,6 @@ filetype plugin on
 filetype indent on
 syntax on
 colorscheme gruvbox
-let mapleader=","
 set background=light
 set encoding=utf-8
 set fileencoding=utf-8
@@ -139,4 +140,3 @@ nnoremap dp :diffput<cr>
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
 au FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
-
