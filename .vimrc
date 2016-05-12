@@ -76,7 +76,7 @@ set background=light
 set encoding=utf-8
 set fileencoding=utf-8
 set comments=sr:/**,m:*\ ,ex:*/,://
-" set number
+set number
 set relativenumber
 "folding
 set foldenable
