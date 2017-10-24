@@ -1,12 +1,16 @@
+set rtp+=/usr/local/opt/fzf
 call plug#begin('~/.vim/plugged')
-Plug 'pmsorhaindo/syntastic-local-eslint.vim'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'glidenote/newdayone.vim'
+Plug 'moll/vim-node'
+Plug 'junegunn/fzf.vim'
+Plug 'docunext/closetag.vim'
+Plug 'w0rp/ale'
 Plug 'Valloric/YouCompleteMe'
 Plug 'bkad/CamelCaseMotion'
 Plug 'vim-scripts/argtextobj.vim'
-Plug 'kien/ctrlp.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'sjl/gundo.vim'
-Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
 Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
@@ -23,7 +27,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-unimpaired'
 Plug 'Shougo/vimproc'
-Plug 'freitass/todo.txt-vim.git'
 " Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -41,17 +44,12 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'JavaScript-Indent'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'othree/yajs.vim'
-" Clojure stuff
-Plug 'tpope/vim-fireplace'
-Plug 'kien/rainbow_parentheses.vim'
-Plug 'guns/vim-clojure-static'
 Plug 'schickling/vim-bufonly'
 call plug#end()
 
 let mapleader=","
 call camelcasemotion#CreateMotionMappings('<leader>')
 " Plugin settings
-let g:syntastic_javascript_checkers = ['eslint']
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 let g:signify_sign_overwrite = 0
@@ -64,6 +62,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "let g:tern_map_keys=1
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
+let g:ale_linters = { 'javascript': ['eslint'] }
 
 " SETTINGS
 set nocompatible
@@ -118,6 +117,7 @@ set smartcase
 "Show command in bottom right portion of the screen
 set showcmd
 set updatetime=250
+set termguicolors
 
 " keybindings/maps
 inoremap jk <esc>
@@ -126,6 +126,9 @@ nmap <leader>q ysiw'
 nmap <silent><leader>s :set spell!<CR>
 nnoremap <leader>nt :NERDTreeToggle<cr>
 nmap <leader>l :set list!<CR>
+nmap ; :Buffers<CR>
+nmap <Leader>t :Files<CR>
+nmap <Leader>r :Tags<CR>
 " find comma, append newline after comma
 nnoremap <leader>z f,a<cr><esc>
 " Use Return key to clear search highlighting
