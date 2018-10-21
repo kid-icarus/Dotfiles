@@ -1,12 +1,12 @@
-set rtp+=/usr/local/opt/fzf
 call plug#begin('~/.vim/plugged')
+Plug '/usr/local/opt/fzf'
 Plug 'mustache/vim-mustache-handlebars'
 Plug 'glidenote/newdayone.vim'
 Plug 'moll/vim-node'
 Plug 'junegunn/fzf.vim'
 Plug 'docunext/closetag.vim'
 Plug 'w0rp/ale'
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'bkad/CamelCaseMotion'
 Plug 'vim-scripts/argtextobj.vim'
 Plug 'Raimondi/delimitMate'
@@ -18,21 +18,19 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 " General crap
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 " Tpope
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-tbone'
 Plug 'tpope/vim-unimpaired'
-Plug 'Shougo/vimproc'
+" Plug 'Shougo/vimproc'
 " Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'tpope/vim-characterize'
-Plug 'vim-scripts/glsl.vim'
+Plug 'ntpeters/vim-better-whitespace' " highlight traling ws
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 " Colorschemes
@@ -40,11 +38,9 @@ Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
 " JS Plugs
 "Plug 'marijnh/tern_for_vim'
-Plug 'jelera/vim-javascript-syntax'
-Plug 'JavaScript-Indent'
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug 'othree/yajs.vim'
 Plug 'schickling/vim-bufonly'
+Plug 'pangloss/vim-javascript'
+Plug  'mxw/vim-jsx'
 call plug#end()
 
 let mapleader=","
@@ -56,13 +52,11 @@ let g:signify_sign_overwrite = 0
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-" let g:UltiSnipsListSnippets="<c-tab>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 "let g:tern_map_keys=1
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 let g:ale_linters = { 'javascript': ['eslint'] }
+let g:deoplete#enable_at_startup = 1
 
 " SETTINGS
 set nocompatible
