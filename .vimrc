@@ -6,19 +6,17 @@ Plug 'moll/vim-node'
 Plug 'junegunn/fzf.vim'
 Plug 'docunext/closetag.vim'
 Plug 'w0rp/ale'
-" Plug 'Valloric/YouCompleteMe'
 Plug 'bkad/CamelCaseMotion'
 Plug 'vim-scripts/argtextobj.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'sjl/gundo.vim'
-Plug 'majutsushi/tagbar'
 Plug 'tomtom/tcomment_vim'
 Plug 'tomtom/tlib_vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
 " General crap
 Plug 'bling/vim-airline'
 Plug 'airblade/vim-gitgutter'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Tpope
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
@@ -28,7 +26,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 " Plug 'Shougo/vimproc'
 " Snippets
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'ntpeters/vim-better-whitespace' " highlight traling ws
 Plug 'scrooloose/nerdtree'
@@ -37,10 +35,12 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
 " JS Plugs
-"Plug 'marijnh/tern_for_vim'
 Plug 'schickling/vim-bufonly'
 Plug 'pangloss/vim-javascript'
 Plug  'mxw/vim-jsx'
+" TS Plugs
+" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 call plug#end()
 
 let mapleader=","
@@ -49,14 +49,16 @@ call camelcasemotion#CreateMotionMappings('<leader>')
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 let g:signify_sign_overwrite = 0
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" let g:UltiSnipsExpandTrigger="<c-j>"
+" let g:UltiSnipsJumpForwardTrigger="<c-j>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 "let g:tern_map_keys=1
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 let g:ale_linters = { 'javascript': ['eslint'] }
-let g:deoplete#enable_at_startup = 1
+let g:ale_linters = { 'typescript': ['tslint'] }
+let g:ale_fixers = { 'javascript': ['eslint'] }
+
 
 " SETTINGS
 set nocompatible
@@ -65,7 +67,7 @@ filetype plugin on
 filetype indent on
 syntax on
 colorscheme gruvbox
-set background=light
+set background=dark
 set encoding=utf-8
 set fileencoding=utf-8
 set comments=sr:/**,m:*\ ,ex:*/,://
@@ -122,7 +124,6 @@ nnoremap <leader>nt :NERDTreeToggle<cr>
 nmap <leader>l :set list!<CR>
 nmap ; :Buffers<CR>
 nmap <Leader>t :Files<CR>
-nmap <Leader>r :Tags<CR>
 " find comma, append newline after comma
 nnoremap <leader>z f,a<cr><esc>
 " Use Return key to clear search highlighting
@@ -130,9 +131,7 @@ nmap <CR> :nohlsearch<CR>
 autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
 " Preserve indentation while pasting text from the OS X clipboard
 noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
-nmap <F8> :TagbarToggle<CR>
-nmap <leader>z ys$"ys$}li"content": "<esc>$i, "tags": []}<esc>j0
-nnoremap dp :diffput<cr>
+"nnoremap dp :diffput<cr>
 "auto command stuff.
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
