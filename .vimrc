@@ -1,11 +1,11 @@
 call plug#begin('~/.vim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'mustache/vim-mustache-handlebars'
-Plug 'glidenote/newdayone.vim'
+" Plug 'glidenote/newdayone.vim'
 Plug 'moll/vim-node'
 Plug 'junegunn/fzf.vim'
 Plug 'docunext/closetag.vim'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
 Plug 'bkad/CamelCaseMotion'
 Plug 'vim-scripts/argtextobj.vim'
 Plug 'Raimondi/delimitMate'
@@ -20,6 +20,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Tpope
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -36,11 +37,15 @@ Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
 " JS Plugs
 Plug 'schickling/vim-bufonly'
-Plug 'pangloss/vim-javascript'
-Plug  'mxw/vim-jsx'
+" Plug 'pangloss/vim-javascript'
+" Plug  'mxw/vim-jsx'
+Plug 'sheerun/vim-polyglot'
+" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'leafgarland/typescript-vim'
 " TS Plugs
 " Plug 'HerringtonDarkholme/yats.vim'
 " Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+Plug 'metakirby5/codi.vim'
 call plug#end()
 
 let mapleader=","
@@ -55,10 +60,10 @@ let g:signify_sign_overwrite = 0
 "let g:tern_map_keys=1
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
-let g:ale_linters = { 'javascript': ['eslint'] }
-let g:ale_linters = { 'typescript': ['tslint'] }
-let g:ale_fixers = { 'javascript': ['eslint'] }
-
+" let g:ale_linters = { 'javascript': ['eslint'] }
+" let g:ale_linters = { 'typescript': ['tslint'] }
+" let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:github_enterprise_urls = ['https://git.blendlabs.com']
 
 " SETTINGS
 set nocompatible
@@ -116,6 +121,7 @@ set updatetime=250
 set termguicolors
 
 " keybindings/maps
+vnoremap <Cmd><Right> :Gbrowse<cr>
 inoremap jk <esc>
 nnoremap <space> :
 nmap <leader>q ysiw'
@@ -123,7 +129,7 @@ nmap <silent><leader>s :set spell!<CR>
 nnoremap <leader>nt :NERDTreeToggle<cr>
 nmap <leader>l :set list!<CR>
 nmap ; :Buffers<CR>
-nmap <Leader>t :Files<CR>
+noremap <Leader>f :Files<CR>
 " find comma, append newline after comma
 nnoremap <leader>z f,a<cr><esc>
 " Use Return key to clear search highlighting
@@ -132,6 +138,23 @@ autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
 " Preserve indentation while pasting text from the OS X clipboard
 noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
 "nnoremap dp :diffput<cr>
+"
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for do codeAction of current line
+nmap <leader>ac <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf <Plug>(coc-fix-current)
+"
 "auto command stuff.
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
