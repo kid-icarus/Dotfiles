@@ -6,8 +6,6 @@ Plug 'moll/vim-node'
 Plug 'junegunn/fzf.vim'
 Plug 'docunext/closetag.vim'
 " Plug 'w0rp/ale'
-Plug 'bkad/CamelCaseMotion'
-Plug 'vim-scripts/argtextobj.vim'
 Plug 'Raimondi/delimitMate'
 Plug 'sjl/gundo.vim'
 Plug 'tomtom/tcomment_vim'
@@ -37,19 +35,12 @@ Plug 'morhetz/gruvbox'
 Plug 'altercation/vim-colors-solarized'
 " JS Plugs
 Plug 'schickling/vim-bufonly'
-" Plug 'pangloss/vim-javascript'
-" Plug  'mxw/vim-jsx'
 Plug 'sheerun/vim-polyglot'
-" Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'leafgarland/typescript-vim'
-" TS Plugs
-" Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'metakirby5/codi.vim'
 call plug#end()
 
 let mapleader=","
-call camelcasemotion#CreateMotionMappings('<leader>')
+" call camelcasemotion#CreateMotionMappings('<leader>')
 " Plugin settings
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
@@ -148,12 +139,14 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
-
+noremap <leader>rn <Plug>(coc-rename)
+" nmap <leader>rw <Plug>
 " Remap for do codeAction of current line
 nmap <leader>ac <Plug>(coc-codeaction)
 " Fix autofix problem of current line
 nmap <leader>qf <Plug>(coc-fix-current)
+nmap ]r :tabnext<cr>
+nmap [r :tabprev<cr>
 "
 "auto command stuff.
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
