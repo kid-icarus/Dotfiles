@@ -1,11 +1,18 @@
 # Path to your oh-my-zsh configuration.
+autoload -Uz compinit
+compinit
+export NVM_LAZY_LOAD=true
+export NVM_COMPLETION=false
+export NVM_NO_USE=true
 ZSH=$HOME/.oh-my-zsh
 GOPATH=$HOME/go
 GOROOT=/usr/local/opt/go/libexec
 
-PATH="/Users/ryank/bin:/usr/local/opt/mongodb-community@4.0/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/Users/ryank/go/bin:$GOROOT/bin:$PATH"
+PATH="/Users/ryank/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/Users/ryank/go/bin:$GOROOT/bin:$PATH"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-ZSH_THEME="sunaku"
+
+ZSH_THEME="cypher"
 COMPLETION_WAITING_DOTS="true"
 
 #PLUGINS
@@ -32,6 +39,7 @@ alias gry='git log --author="Ryan Kois" --since="1 week ago" --pretty="oneline" 
 alias gryl='git log --author="Ryan Kois" --since="1 week ago" --pretty="medium" --no-merges'
 
 alias npms='npm install --save'
+alias ws='open -a Webstorm .'
 
 # fuzzy finder config
 export FZF_DEFAULT_COMMAND='fd --type f'
@@ -43,6 +51,17 @@ fbr() {
   branch=$(echo "$branches" | fzf +m) &&
   git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}
 
-[[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
-[-f ~/.job_stuffrc.zsh] && . ~/.job_stuffrc.zsh
+[ -f ~/.job_stuffrc.zsh ] && . ~/.job_stuffrc.zsh
+# [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+alias gpp='git config --local user.email ryan.kois@gmail.com'
+#
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# source ~/.oh-my-zsh/plugins/git/git.plugin.zsh

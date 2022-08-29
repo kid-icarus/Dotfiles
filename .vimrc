@@ -1,7 +1,7 @@
 call plug#begin('~/.vim/plugged')
 Plug '/usr/local/opt/fzf'
 Plug 'mustache/vim-mustache-handlebars'
-" Plug 'glidenote/newdayone.vim'
+Plug 'glidenote/newdayone.vim'
 Plug 'moll/vim-node'
 Plug 'junegunn/fzf.vim'
 Plug 'docunext/closetag.vim'
@@ -37,6 +37,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'schickling/vim-bufonly'
 Plug 'sheerun/vim-polyglot'
 Plug 'metakirby5/codi.vim'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
 let mapleader=","
@@ -112,7 +113,7 @@ set updatetime=250
 set termguicolors
 
 " keybindings/maps
-vnoremap <Cmd><Right> :Gbrowse<cr>
+vnoremap <Cmd><Right> :GBrowse<cr>
 inoremap jk <esc>
 nnoremap <space> :
 nmap <leader>q ysiw'
@@ -121,6 +122,7 @@ nnoremap <leader>nt :NERDTreeToggle<cr>
 nmap <leader>l :set list!<CR>
 nmap ; :Buffers<CR>
 noremap <Leader>f :Files<CR>
+noremap <Leader>r :Rg<CR>
 " find comma, append newline after comma
 nnoremap <leader>z f,a<cr><esc>
 " Use Return key to clear search highlighting
@@ -133,6 +135,7 @@ noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+noremap gco :Git checkout<space>
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -147,8 +150,16 @@ nmap <leader>ac <Plug>(coc-codeaction)
 nmap <leader>qf <Plug>(coc-fix-current)
 nmap ]r :tabnext<cr>
 nmap [r :tabprev<cr>
+nnoremap <leader>a  :<C-u>CocList -I symbols<cr>
+nnoremap <leader>b  :Git blame<cr>
+
+" inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+" inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
+" inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+" inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 "
 "auto command stuff.
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
+autocmd BufWritePre *.md :%!prettier --parser markdown --prose-wrap always
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
 au FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
