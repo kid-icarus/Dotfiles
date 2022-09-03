@@ -41,20 +41,13 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 call plug#end()
 
 let mapleader=","
-" call camelcasemotion#CreateMotionMappings('<leader>')
+
 " Plugin settings
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 let g:signify_sign_overwrite = 0
-" let g:UltiSnipsExpandTrigger="<c-j>"
-" let g:UltiSnipsJumpForwardTrigger="<c-j>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-k>"
-"let g:tern_map_keys=1
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
-" let g:ale_linters = { 'javascript': ['eslint'] }
-" let g:ale_linters = { 'typescript': ['tslint'] }
-" let g:ale_fixers = { 'javascript': ['eslint'] }
 let g:github_enterprise_urls = ['https://git.blendlabs.com']
 
 " SETTINGS
@@ -120,34 +113,15 @@ nmap <leader>q ysiw'
 nmap <silent><leader>s :set spell!<CR>
 nnoremap <leader>nt :NERDTreeToggle<cr>
 nmap <leader>l :set list!<CR>
-nmap ; :Buffers<CR>
-noremap <Leader>f :Files<CR>
-noremap <Leader>r :Rg<CR>
 " find comma, append newline after comma
 nnoremap <leader>z f,a<cr><esc>
 " Use Return key to clear search highlighting
-nmap <CR> :nohlsearch<CR>
+nmap <CR> <cmd>nohlsearch<CR>
 autocmd BufReadPost quickfix nmap <buffer> <CR> <CR>
 " Preserve indentation while pasting text from the OS X clipboard
 noremap <leader>p :set paste<CR>:put *<CR>:set nopaste<CR>
 "nnoremap dp :diffput<cr>
 "
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-noremap gco :Git checkout<space>
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-noremap <leader>rn <Plug>(coc-rename)
-" nmap <leader>rw <Plug>
-" Remap for do codeAction of current line
-nmap <leader>ac <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <leader>qf <Plug>(coc-fix-current)
 nmap ]r :tabnext<cr>
 nmap [r :tabprev<cr>
 nnoremap <leader>a  :<C-u>CocList -I symbols<cr>
@@ -158,8 +132,27 @@ nnoremap <leader>b  :Git blame<cr>
 " inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
 " inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 "
+" Telescope maps
+nnoremap ; <cmd>Telescope buffers<cr>
+nnoremap <leader>f <cmd>Telescope find_files<cr>
+nnoremap <leader>r <cmd>Telescope live_grep<cr>
+
 "auto command stuff.
 autocmd BufNewFile * silent! 0r $VIMHOME/templates/%:e.tpl
 autocmd BufWritePre *.md :%!prettier --parser markdown --prose-wrap always
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
 au FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  -- A list of parser names, or "all"
+  ensure_installed = { "c", "lua", "rust", "typescript", "tsx" },
+  sync_install = false,
+  auto_install = true,
+  highlight = {
+    -- `false` will disable the whole extension
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF

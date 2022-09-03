@@ -11,7 +11,6 @@ GOROOT=/usr/local/opt/go/libexec
 PATH="/Users/ryank/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/Users/ryank/go/bin:$GOROOT/bin:$PATH"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-
 ZSH_THEME="cypher"
 COMPLETION_WAITING_DOTS="true"
 
