@@ -12,10 +12,8 @@ return require('packer').startup(function()
     requires = { {'nvim-lua/plenary.nvim'} }
   }
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-  
   use 'bling/vim-airline'
   use 'airblade/vim-gitgutter'
-  
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
