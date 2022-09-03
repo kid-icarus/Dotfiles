@@ -1,4 +1,6 @@
 return require('packer').startup(function()
+  use 'wbthomason/packer.nvim'
+  use 'neovim/nvim-lspconfig'
   use 'mustache/vim-mustache-handlebars'
   use 'moll/vim-node'
   use 'docunext/closetag.vim'

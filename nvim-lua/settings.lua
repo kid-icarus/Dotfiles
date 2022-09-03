@@ -4,7 +4,8 @@ vim.opt.fileencoding="utf-8"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.foldenable = true
-vim.opt.foldmethod="syntax"
+vim.opt.foldmethod="expr"
+vim.cmd('set foldexpr=nvim_treesitter#foldexpr()')
 
 -- White characters
 vim.opt.tabstop = 2
