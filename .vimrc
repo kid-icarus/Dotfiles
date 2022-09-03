@@ -1,8 +1,9 @@
 call plug#begin('~/.vim/plugged')
-Plug '/usr/local/opt/fzf'
+Plug '/opt/homebrew/bin/fzf'
 Plug 'mustache/vim-mustache-handlebars'
-Plug 'glidenote/newdayone.vim'
-Plug 'moll/vim-node'
+" Plug 'glidenote/newdayone.vim'
+" Plug 'moll/vim-node'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'docunext/closetag.vim'
 " Plug 'w0rp/ale'
