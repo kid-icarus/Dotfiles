@@ -31,4 +31,8 @@ return require('packer').startup(function()
   use 'schickling/vim-bufonly'
   use 'sheerun/vim-polyglot'
   use 'metakirby5/codi.vim'
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
 end)

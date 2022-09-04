@@ -11,6 +11,9 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 local on_attach = function(client, bufnr)
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  if client.name == 'tsserver' then
+    client.resolved_capabilities.document_formatting = false
+  end
 
   -- Mappings.
   -- See `:help vim.lsp.*` for documentation on any of the below functions
