@@ -4,8 +4,10 @@ vim.opt.fileencoding="utf-8"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.foldenable = true
-vim.opt.foldmethod="expr"
-vim.cmd('set foldexpr=nvim_treesitter#foldexpr()')
+vim.opt.foldlevel = 20
+vim.opt.foldmethod="indent"
+-- treesitter folding is broken :( https://github.com/nvim-telescope/telescope.nvim/pull/1643
+-- vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- White characters
 vim.opt.tabstop = 2
