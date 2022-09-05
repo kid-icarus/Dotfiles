@@ -8,6 +8,7 @@ vim.opt.foldlevel = 20
 vim.opt.foldmethod="indent"
 -- treesitter folding is broken :( https://github.com/nvim-telescope/telescope.nvim/pull/1643
 -- vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.termguicolors = true
 
 -- White characters
 vim.opt.tabstop = 2
