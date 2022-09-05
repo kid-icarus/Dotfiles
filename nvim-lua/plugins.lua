@@ -1,11 +1,5 @@
 return require('packer').startup(function()
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/nvim-cmp'
   use 'wbthomason/packer.nvim'
-  use 'neovim/nvim-lspconfig'
   use 'mustache/vim-mustache-handlebars'
   use 'moll/vim-node'
   use 'docunext/closetag.vim'
@@ -36,8 +30,20 @@ return require('packer').startup(function()
   use 'schickling/vim-bufonly'
   use 'sheerun/vim-polyglot'
   use 'metakirby5/codi.vim'
+  -- rip native lsp, switching back to coc
   use {
-    'jose-elias-alvarez/null-ls.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    'neoclide/coc.nvim', branch = 'release'
   }
+  -- lsp stuff
+  use 'neovim/nvim-lspconfig'
+  -- use {
+  --   'jose-elias-alvarez/null-ls.nvim',
+  --   requires = { {'nvim-lua/plenary.nvim'} }
+  -- }
+  -- autocompletion via nvim-cmp
+  -- use 'hrsh7th/cmp-nvim-lsp'
+  -- use 'hrsh7th/cmp-buffer'
+  -- use 'hrsh7th/cmp-path'
+  -- use 'hrsh7th/cmp-cmdline'
+  -- use 'hrsh7th/nvim-cmp'
 end)

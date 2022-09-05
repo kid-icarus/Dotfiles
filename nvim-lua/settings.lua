@@ -1,3 +1,7 @@
+vim.g.nobackup = true
+vim.g.nowritebackup = true
+vim.g.updatetime = 300
+vim.g.signcolumn = "yes"
 vim.g.mapleader = ","
 vim.opt.encoding="utf-8"
 vim.opt.fileencoding="utf-8"
