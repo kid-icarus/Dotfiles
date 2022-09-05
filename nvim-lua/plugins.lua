@@ -30,20 +30,19 @@ return require('packer').startup(function()
   use 'schickling/vim-bufonly'
   use 'sheerun/vim-polyglot'
   use 'metakirby5/codi.vim'
-  -- rip native lsp, switching back to coc
-  use {
-    'neoclide/coc.nvim', branch = 'release'
-  }
+  -- use {
+  --   'neoclide/coc.nvim', branch = 'release'
+  -- }
   -- lsp stuff
   use 'neovim/nvim-lspconfig'
-  -- use {
-  --   'jose-elias-alvarez/null-ls.nvim',
-  --   requires = { {'nvim-lua/plenary.nvim'} }
-  -- }
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    requires = { {'nvim-lua/plenary.nvim'} }
+  }
   -- autocompletion via nvim-cmp
-  -- use 'hrsh7th/cmp-nvim-lsp'
-  -- use 'hrsh7th/cmp-buffer'
-  -- use 'hrsh7th/cmp-path'
-  -- use 'hrsh7th/cmp-cmdline'
-  -- use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'hrsh7th/cmp-cmdline'
+  use 'hrsh7th/nvim-cmp'
 end)

@@ -41,7 +41,7 @@ local lsp_flags = {
 }
 
 -- disabling ts lsp, it's a giant mess.
--- require'lspconfig'.tsserver.setup{
---   on_attach = on_attach,
---   flags = lsp_flags,
--- }
+require'lspconfig'.tsserver.setup{
+  on_attach = on_attach,
+  flags = lsp_flags,
+}
