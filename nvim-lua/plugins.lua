@@ -39,8 +39,10 @@ return require('packer').startup(function()
     'jose-elias-alvarez/null-ls.nvim',
     requires = { {'nvim-lua/plenary.nvim'} }
   }
+  use 'L3MON4D3/LuaSnip'
   -- autocompletion via nvim-cmp
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lua'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'

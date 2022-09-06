@@ -62,3 +62,4 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 # source ~/.oh-my-zsh/plugins/git/git.plugin.zsh
 eval "$(starship init zsh)"
+alias d="cd ~/Projects/personal/Dotfiles"
