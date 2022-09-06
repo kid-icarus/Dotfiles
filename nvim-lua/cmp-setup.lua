@@ -1,4 +1,5 @@
 local cmp = require'cmp'
+local lspkind = require'lspkind'
 
 local sources = cmp.config.sources({
   { name = 'nvim_lua' },
@@ -13,8 +14,22 @@ local snippet = {
   end
 }
 
+local formatting = {
+  format = lspkind.cmp_format {
+    with_text = true,
+    menu = {
+      buffer = "[buf]",
+      nvim_lsp = "[LSP]",
+      nvim_lua = "[api]",
+      path = "[path]",
+      luasnip = "[snip]"
+    }
+  }
+}
+
 cmp.setup({
     snippet = snippet,
+    formatting = formatting,
     window = {
       -- completion = cmp.config.window.bordered(),
       -- documentation = cmp.config.window.bordered(),
