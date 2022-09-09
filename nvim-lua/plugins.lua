@@ -9,10 +9,11 @@ return require('packer').startup(function()
   use 'tomtom/tlib_vim'
   use 'MarcWeber/vim-addon-mw-utils'
   use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.0',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.0',
+    requires = { { 'nvim-lua/plenary.nvim' } },
   }
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'bling/vim-airline'
   use 'airblade/vim-gitgutter'
   use 'tpope/vim-eunuch'
@@ -34,10 +35,9 @@ return require('packer').startup(function()
   --   'neoclide/coc.nvim', branch = 'release'
   -- }
   -- lsp stuff
-  use 'neovim/nvim-lspconfig'
   use {
     'jose-elias-alvarez/null-ls.nvim',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = { { 'nvim-lua/plenary.nvim' } },
   }
   use 'L3MON4D3/LuaSnip'
   -- autocompletion via nvim-cmp
@@ -48,4 +48,5 @@ return require('packer').startup(function()
   use 'hrsh7th/cmp-cmdline'
   use 'hrsh7th/nvim-cmp'
   use 'onsails/lspkind.nvim'
+  use 'neovim/nvim-lspconfig'
 end)

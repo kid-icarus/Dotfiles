@@ -57,5 +57,3 @@ nmap('<leader>r', '<cmd>Telescope live_grep<cr>')
 -- nmap('<leader>c', '<cmd>CocList commands<cr>')
 -- nmap('<leader>o', '<cmd>CocList outline<cr>')
 -- nmap('<leader>s', '<cmd>CocList -I symbols<cr>')
-
-
