@@ -1,5 +1,5 @@
 function map(mode, shortcut, command)
-  vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+  vim.keymap.set(mode, shortcut, command, { noremap = true, silent = true })
 end
 
 function nmap(shortcut, command)
@@ -26,9 +26,13 @@ function xmap(shortcut, command)
   map('x', shortcut, command)
 end
 
-vim.api.nvim_set_keymap('n', '<space>', ':', { noremap = true })
+vim.keymap.set('n', '<space>', ':', { noremap = true })
 
-vmap('<Cmd><Right>', '<cmd>Gbrowse<cr>')
+nmap('<leader>a', '<cmd>Git blame<cr>')
+nmap('<leader>g', ':GBrowse<cr>')
+vmap('<leader>g', ":GBrowse<cr>")
+nmap('<leader>G', ':GBrowse!<cr>')
+vmap('<leader>G', ":GBrowse!<cr>")
 imap('jk', '<esc>')
 nmap('<leader>s', ':set spell!<cr>')
 nmap('<leader>nt', ':NERDTreeToggle<cr>')
