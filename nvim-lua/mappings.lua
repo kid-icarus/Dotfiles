@@ -1,3 +1,4 @@
+local ls = require 'luasnip'
 function map(mode, shortcut, command)
   vim.keymap.set(mode, shortcut, command, { noremap = true, silent = true })
 end
@@ -45,6 +46,17 @@ nmap('<leader>ff', '<cmd>Telescope find_files<cr>')
 nmap('<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<cr>')
 nmap('<leader>r', '<cmd>Telescope live_grep<cr>')
 
+map({ 'i', 's' }, '<c-k>', function()
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  end
+end)
+
+map({ 'i', 's' }, '<c-j>', function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end)
 -- CoC mappings
 -- nmap('gD', '<Plug>(coc-type-definition)')
 -- nmap('gd', '<Plug>(coc-definition)')
