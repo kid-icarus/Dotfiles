@@ -15,7 +15,12 @@ return require('packer').startup(function()
   }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use 'bling/vim-airline'
-  use 'airblade/vim-gitgutter'
+  use {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require('gitsigns').setup()
+    end
+  }
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
