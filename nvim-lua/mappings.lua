@@ -43,7 +43,7 @@ nmap(']r', ':tabnext<cr>')
 nmap('[r', ':tabprev<cr>')
 nmap(';', '<cmd>Telescope buffers<cr>')
 nmap('<leader>ff', '<cmd>Telescope find_files<cr>')
-nmap('<leader>fm', '<cmd>lua vim.lsp.buf.formatting()<cr>')
+nmap('<leader>fm', '<cmd>lua vim.lsp.buf.format()<cr>')
 nmap('<leader>r', '<cmd>Telescope live_grep<cr>')
 
 map({ 'i', 's' }, '<c-k>', function()
