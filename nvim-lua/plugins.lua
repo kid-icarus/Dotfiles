@@ -29,8 +29,6 @@ return require('packer').startup(function()
   use 'tpope/vim-surround'
   use 'tpope/vim-unimpaired'
   use 'ntpeters/vim-better-whitespace'
-  use 'scrooloose/nerdtree'
-  use 'Xuyuanp/nerdtree-git-plugin'
   use 'morhetz/gruvbox'
   use 'altercation/vim-colors-solarized'
   use 'schickling/vim-bufonly'
@@ -54,4 +52,5 @@ return require('packer').startup(function()
   use 'hrsh7th/nvim-cmp'
   use 'onsails/lspkind.nvim'
   use 'neovim/nvim-lspconfig'
+  use 'nvim-tree/nvim-tree.lua'
 end)
