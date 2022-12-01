@@ -19,7 +19,7 @@ return require('packer').startup(function()
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup()
-    end
+    end,
   }
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
@@ -53,4 +53,8 @@ return require('packer').startup(function()
   use 'onsails/lspkind.nvim'
   use 'neovim/nvim-lspconfig'
   use 'nvim-tree/nvim-tree.lua'
+  use {
+    'folke/trouble.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+  }
 end)
