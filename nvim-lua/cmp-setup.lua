@@ -2,6 +2,39 @@ local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 local nvim_lsp = require 'lspconfig'
 
+local function rename_file()
+  local source_file, target_file
+
+  vim.ui.input({
+    prompt = 'Source : ',
+    completion = 'file',
+    default = vim.api.nvim_buf_get_name(0),
+  }, function(input)
+    source_file = input
+  end)
+  vim.ui.input({
+    prompt = 'Target : ',
+    completion = 'file',
+    default = source_file,
+  }, function(input)
+    target_file = input
+  end)
+
+  local params = {
+    command = '_typescript.applyRenameFile',
+    arguments = {
+      {
+        sourceUri = source_file,
+        targetUri = target_file,
+      },
+    },
+    title = '',
+  }
+
+  vim.lsp.util.rename(source_file, target_file)
+  vim.lsp.buf.execute_command(params)
+end
+
 local sources = cmp.config.sources {
   { name = 'nvim_lua' },
   { name = 'nvim_lsp' },
@@ -61,6 +94,7 @@ local on_attach = function(client, bufnr)
   end, bufopts)
   -- vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>R', rename_file, bufopts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('x', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<leader>f', vim.lsp.buf.formatting, bufopts)
@@ -121,6 +155,12 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protoc
 nvim_lsp.tsserver.setup {
   capabilities = capabilities,
   on_attach = on_attach,
+  commands = {
+    RenameFile = {
+      rename_file,
+      description = 'Rename File',
+    },
+  },
 }
 
 nvim_lsp.sumneko_lua.setup {
