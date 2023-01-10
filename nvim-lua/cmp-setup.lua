@@ -163,6 +163,8 @@ nvim_lsp.tsserver.setup {
   },
 }
 
+nvim_lsp.rust_analyzer.setup{}
+
 nvim_lsp.sumneko_lua.setup {
   settings = {
     Lua = {
