@@ -163,7 +163,9 @@ nvim_lsp.tsserver.setup {
   },
 }
 
-nvim_lsp.rust_analyzer.setup{}
+nvim_lsp.rust_analyzer.setup{
+  on_attach = on_attach
+}
 
 nvim_lsp.sumneko_lua.setup {
   settings = {

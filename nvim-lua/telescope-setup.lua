@@ -45,9 +45,9 @@ require('telescope').setup {
 
 local builtin = require'telescope.builtin'
 vim.keymap.set('n', 'gr', builtin.lsp_references, {})
-vim.keymap.set('n', 'gS', builtin.lsp_workspace_symbols, {})
 vim.keymap.set('n', 'gt', builtin.lsp_implementations, {})
 vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
 vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
 vim.keymap.set('n', 'gt', builtin.lsp_type_definitions, {})
 vim.keymap.set('n', '<leader>S', builtin.git_status, {})
+vim.keymap.set('n', '<leader>ws', builtin.lsp_dynamic_workspace_symbols, {})
