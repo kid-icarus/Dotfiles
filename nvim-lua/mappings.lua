@@ -45,6 +45,7 @@ nmap(';', '<cmd>Telescope buffers<cr>')
 nmap('<leader>ff', '<cmd>Telescope find_files<cr>')
 nmap('<leader>fm', '<cmd>lua vim.lsp.buf.format()<cr>')
 nmap('<leader>r', '<cmd>Telescope live_grep<cr>')
+nmap('<leader>pr', '<cmd>Octo search assignee:ryank is:pr is:open<cr>')
 
 map({ 'i', 's' }, '<c-k>', function()
   if ls.expand_or_jumpable() then

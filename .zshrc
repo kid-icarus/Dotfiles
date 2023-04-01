@@ -64,3 +64,5 @@ plugins=(git)
 source ~/.oh-my-zsh/oh-my-zsh.sh
 eval "$(starship init zsh)"
 alias d="cd ~/Projects/personal/Dotfiles"
+
+export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"

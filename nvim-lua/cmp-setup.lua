@@ -168,7 +168,7 @@ nvim_lsp.rust_analyzer.setup {
   cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
 }
 
-nvim_lsp.sumneko_lua.setup {
+nvim_lsp.lua_ls.setup {
   settings = {
     Lua = {
       runtime = {

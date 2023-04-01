@@ -58,14 +58,24 @@ return require('packer').startup(function()
     requires = 'kyazdani42/nvim-web-devicons',
   }
   use {
-  'pwntester/octo.nvim',
-  requires = {
-    'nvim-lua/plenary.nvim',
-    'nvim-telescope/telescope.nvim',
-    'kyazdani42/nvim-web-devicons',
-  },
-  config = function ()
-    require"octo".setup()
-  end
-}
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'kyazdani42/nvim-web-devicons',
+    },
+    config = function()
+      require('octo').setup()
+    end,
+  }
+  use {
+    'jcdickinson/http.nvim',
+    run = 'cargo build --workspace --release',
+  }
+  use {
+    '~/Projects/personal/jira.nvim',
+    requires = {
+      'jcdickinson/http.nvim',
+    },
+  }
 end)
