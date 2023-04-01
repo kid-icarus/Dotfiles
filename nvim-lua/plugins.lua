@@ -77,5 +77,8 @@ return require('packer').startup(function()
     requires = {
       'jcdickinson/http.nvim',
     },
+    config = function()
+      require('jira').setup()
+    end
   }
 end)
