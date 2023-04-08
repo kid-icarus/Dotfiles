@@ -169,6 +169,7 @@ nvim_lsp.rust_analyzer.setup {
 }
 
 nvim_lsp.lua_ls.setup {
+  on_attach = on_attach,
   settings = {
     Lua = {
       runtime = {

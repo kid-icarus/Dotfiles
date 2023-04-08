@@ -53,6 +53,7 @@ return require('packer').startup(function()
   use 'onsails/lspkind.nvim'
   use 'neovim/nvim-lspconfig'
   use 'nvim-tree/nvim-tree.lua'
+  use 'github/copilot.vim'
   use {
     'folke/trouble.nvim',
     requires = 'kyazdani42/nvim-web-devicons',

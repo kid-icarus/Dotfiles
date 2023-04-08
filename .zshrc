@@ -66,3 +66,6 @@ eval "$(starship init zsh)"
 alias d="cd ~/Projects/personal/Dotfiles"
 
 export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
