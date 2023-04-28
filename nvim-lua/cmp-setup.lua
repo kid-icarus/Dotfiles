@@ -168,6 +168,11 @@ nvim_lsp.rust_analyzer.setup {
   cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
 }
 
+nvim_lsp.clangd.setup {
+  on_attach = on_attach,
+  cmd = { 'clangd', '--background-index' },
+}
+
 nvim_lsp.lua_ls.setup {
   on_attach = on_attach,
   settings = {
