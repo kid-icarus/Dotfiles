@@ -165,7 +165,15 @@ nvim_lsp.tsserver.setup {
 
 nvim_lsp.rust_analyzer.setup {
   on_attach = on_attach,
+  settings = {
+    ['rust-analyzer'] = {
+      check = {
+        command = 'clippy',
+      },
+    },
+  },
   cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
+  --{ 'cargo', 'clippy', '--all-features', '--workspace', '--message-format=json' },
 }
 
 nvim_lsp.clangd.setup {
