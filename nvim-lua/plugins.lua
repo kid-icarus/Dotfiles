@@ -3,8 +3,13 @@ return require('packer').startup(function()
   use 'mustache/vim-mustache-handlebars'
   use 'moll/vim-node'
   use 'docunext/closetag.vim'
-  use 'Raimondi/delimitMate'
   use 'sjl/gundo.vim'
+  use {
+    'windwp/nvim-autopairs',
+    config = function()
+      require('nvim-autopairs').setup {}
+    end,
+  }
   use 'tomtom/tcomment_vim'
   use 'tomtom/tlib_vim'
   use 'MarcWeber/vim-addon-mw-utils'
@@ -80,6 +85,6 @@ return require('packer').startup(function()
     },
     config = function()
       require('jira').setup()
-    end
+    end,
   }
 end)
