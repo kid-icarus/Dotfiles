@@ -165,6 +165,7 @@ nvim_lsp.tsserver.setup {
 
 nvim_lsp.rust_analyzer.setup {
   on_attach = on_attach,
+  capabilities = capabilities,
   settings = {
     ['rust-analyzer'] = {
       check = {
@@ -177,12 +178,27 @@ nvim_lsp.rust_analyzer.setup {
 }
 
 nvim_lsp.clangd.setup {
+  capabilities = capabilities,
   on_attach = on_attach,
   cmd = { 'clangd', '--background-index' },
 }
 
+nvim_lsp.gopls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    gopls = {
+      usePlaceholders = true,
+      analyses = {
+        unusedparams = true,
+      },
+    },
+  },
+}
+
 nvim_lsp.lua_ls.setup {
   on_attach = on_attach,
+  capabilities = capabilities,
   settings = {
     Lua = {
       runtime = {

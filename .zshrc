@@ -4,10 +4,8 @@ compinit
 export NVM_LAZY_LOAD=true
 export NVM_COMPLETION=false
 export NVM_NO_USE=true
-GOPATH=$HOME/go
-GOROOT=/usr/local/opt/go/libexec
 
-PATH="$HOME/.cargo/bin:/Users/ryank/bin:/opt/homebrew/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/Users/ryank/go/bin:$GOROOT/bin:$PATH"
+PATH="$HOME/.cargo/bin:/Users/ryank/bin:/opt/homebrew/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/usr/local/go/bin:$HOME/go/bin:$PATH"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 ZSH_THEME="cypher"
