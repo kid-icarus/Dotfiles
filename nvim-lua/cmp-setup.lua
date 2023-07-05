@@ -2,6 +2,7 @@ local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 local nvim_lsp = require 'lspconfig'
 
+
 local function rename_file()
   local source_file, target_file
 
@@ -219,4 +220,8 @@ nvim_lsp.lua_ls.setup {
       },
     },
   },
+}
+
+nvim_lsp.grammarly.setup {
+  on_attach = on_attach,
 }

@@ -32,6 +32,7 @@ alias gds='git diff --stat'
 alias gry='git log --author="Ryan Kois" --since="1 week ago" --pretty="oneline" --abbrev-commit --no-merges'
 alias gryl='git log --author="Ryan Kois" --since="1 week ago" --pretty="medium" --no-merges'
 alias gpp='git config --local user.email ryan.kois@gmail.com'
+alias gass="gh pr edit --add-assignee"
 
 alias npms='npm install --save'
 alias ws='open -a Webstorm .'
