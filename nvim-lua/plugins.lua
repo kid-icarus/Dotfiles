@@ -15,7 +15,7 @@ return require('packer').startup(function()
   use 'MarcWeber/vim-addon-mw-utils'
   use {
     'nvim-telescope/telescope.nvim',
-    tag = '0.1.0',
+    branch = '0.1.x',
     requires = { { 'nvim-lua/plenary.nvim' } },
   }
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }

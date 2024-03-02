@@ -181,7 +181,7 @@ nvim_lsp.rust_analyzer.setup {
 nvim_lsp.clangd.setup {
   capabilities = capabilities,
   on_attach = on_attach,
-  cmd = { 'clangd', '--background-index' },
+  cmd = { 'clangd', '--background-index', '--offset-encoding=utf-16' },
 }
 
 nvim_lsp.gopls.setup {
@@ -195,6 +195,11 @@ nvim_lsp.gopls.setup {
       },
     },
   },
+}
+
+nvim_lsp.bashls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
 }
 
 nvim_lsp.lua_ls.setup {
