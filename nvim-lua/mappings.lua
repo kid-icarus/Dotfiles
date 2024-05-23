@@ -27,13 +27,21 @@ function xmap(shortcut, command)
   map('x', shortcut, command)
 end
 
+local function toggleBackground()
+  if vim.o.background == 'dark' then
+    vim.o.background = 'light'
+  else
+    vim.o.background = 'dark'
+  end
+end
+
 vim.keymap.set('n', '<space>', ':', { noremap = true })
 
 nmap('<leader>a', '<cmd>Git blame<cr>')
 nmap('<leader>g', ':GBrowse<cr>')
-vmap('<leader>g', ":GBrowse<cr>")
+vmap('<leader>g', ':GBrowse<cr>')
 nmap('<leader>G', ':GBrowse!<cr>')
-vmap('<leader>G', ":GBrowse!<cr>")
+vmap('<leader>G', ':GBrowse!<cr>')
 imap('jk', '<esc>')
 nmap('<leader>s', ':set spell!<cr>')
 nmap('<leader>nt', ':NvimTreeToggle<cr>')
@@ -46,6 +54,7 @@ nmap('<leader>ff', '<cmd>Telescope find_files<cr>')
 nmap('<leader>fm', '<cmd>lua vim.lsp.buf.format()<cr>')
 nmap('<leader>r', '<cmd>Telescope live_grep<cr>')
 nmap('<leader>pr', '<cmd>Octo search assignee:ryank is:pr is:open<cr>')
+nmap('<leader>d', toggleBackground)
 
 map({ 'i', 's' }, '<c-k>', function()
   if ls.expand_or_jumpable() then
