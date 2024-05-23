@@ -1,4 +1,7 @@
 require('octo').setup {
+  suppress_missing_scope = {
+    projects_v2 = true,
+  },
   default_remote = { 'upstream', 'origin' }, -- order to try remotes
   ssh_aliases = {}, -- SSH aliases. e.g. `ssh_aliases = {["github.com-work"] = "github.com"}`
   reaction_viewer_hint_icon = '', -- marker for user reactions
