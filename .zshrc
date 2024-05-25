@@ -68,3 +68,4 @@ export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
 export WASMTIME_HOME="$HOME/.wasmtime"
 
 export PATH="$WASMTIME_HOME/bin:$PATH"
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"

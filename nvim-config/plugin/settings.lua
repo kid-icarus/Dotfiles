@@ -23,4 +23,3 @@ vim.opt.expandtab = true
 vim.opt.clipboard = 'unnamed'
 vim.opt.laststatus = 3
 vim.opt.wrap = true
-vim.cmd 'colorscheme gruvbox'

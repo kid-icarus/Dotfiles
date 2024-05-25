@@ -1,4 +1,4 @@
-local ls = require 'luasnip'
+-- local ls = require 'luasnip'
 function map(mode, shortcut, command)
   vim.keymap.set(mode, shortcut, command, { noremap = true, silent = true })
 end
@@ -49,37 +49,22 @@ nmap('<leader>l', ':set list!<cr>')
 nmap('<cr>', '<cmd>nohlsearch<cr>')
 nmap(']r', ':tabnext<cr>')
 nmap('[r', ':tabprev<cr>')
-nmap(';', '<cmd>Telescope buffers<cr>')
+nmap('<leader>fd', '<cmd>Telescope buffers<cr>')
 nmap('<leader>ff', '<cmd>Telescope find_files<cr>')
 nmap('<leader>fm', '<cmd>lua vim.lsp.buf.format()<cr>')
 nmap('<leader>r', '<cmd>Telescope live_grep<cr>')
 nmap('<leader>pr', '<cmd>Octo search assignee:ryank is:pr is:open<cr>')
 nmap('<leader>d', toggleBackground)
+nmap('<leader><leader>s', '<cmd>source %<cr>')
 
-map({ 'i', 's' }, '<c-k>', function()
-  if ls.expand_or_jumpable() then
-    ls.expand_or_jump()
-  end
-end)
-
-map({ 'i', 's' }, '<c-j>', function()
-  if ls.jumpable(-1) then
-    ls.jump(-1)
-  end
-end)
--- CoC mappings
--- nmap('gD', '<Plug>(coc-type-definition)')
--- nmap('gd', '<Plug>(coc-definition)')
--- nmap('gi', '<Plug>(coc-implementation)')
--- nmap('gr', '<Plug>(coc-references)')
--- nmap('<leader>rn', '<Plug>(coc-rename)')
--- nmap('<leader>a', '<Plug>(coc-codeaction-selected)')
--- xmap('<leader>a', '<Plug>(coc-codeaction-selected)')
--- nmap('<leader>ac', '<Plug>(coc-codeaction)')
--- nmap('<leader>qf', '<Plug>(coc-fix-current)')
--- nmap('<leader>cl', '<Plug>(coc-codelens-action)')
--- nmap('<leader>a', '<cmd>CocList diagnostics<cr>')
--- nmap('<leader>e', '<cmd>CocList extensions<cr>')
--- nmap('<leader>c', '<cmd>CocList commands<cr>')
--- nmap('<leader>o', '<cmd>CocList outline<cr>')
--- nmap('<leader>s', '<cmd>CocList -I symbols<cr>')
+-- map({ 'i', 's' }, '<c-k>', function()
+--   if ls.expand_or_jumpable() then
+--     ls.expand_or_jump()
+--   end
+-- end)
+--
+-- map({ 'i', 's' }, '<c-j>', function()
+--   if ls.jumpable(-1) then
+--     ls.jump(-1)
+--   end
+-- end)
