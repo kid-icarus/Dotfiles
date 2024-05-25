@@ -26,6 +26,13 @@ return require('packer').startup(function()
       require('gitsigns').setup()
     end,
   }
+  use {
+    'm4xshen/hardtime.nvim',
+    requires = { { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' } },
+    config = function()
+      require('hardtime').setup()
+    end,
+  }
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-rhubarb'
