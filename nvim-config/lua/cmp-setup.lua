@@ -2,7 +2,6 @@ local cmp = require 'cmp'
 local lspkind = require 'lspkind'
 local nvim_lsp = require 'lspconfig'
 
-
 local function rename_file()
   local source_file, target_file
 
