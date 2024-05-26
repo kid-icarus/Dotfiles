@@ -8,6 +8,7 @@ return {
   config = function()
     require('jira').setup()
     local t = require 'telescope'
-    vim.keymap.set('n', '<leader>jt', t.extensions.jira.transitions, {})
+    vim.keymap.set('n', '<leader>jt', '<cmd>Jira issue view<cr>', {})
+    vim.keymap.set('n', '<leader>jv', t.extensions.jira.transitions, {})
   end,
 }
