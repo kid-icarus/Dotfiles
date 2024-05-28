@@ -6,7 +6,10 @@ return {
     'nvim-telescope/telescope.nvim',
   },
   config = function()
-    require('jira').setup()
+    require('jira').setup {
+      git_trunk_branch = 'main',
+      git_branch_prefix = 'rk/',
+    }
     local t = require 'telescope'
     vim.keymap.set('n', '<leader>jv', '<cmd>Jira issue view<cr>', {})
     vim.keymap.set('n', '<leader>jt', t.extensions.jira.transitions, {})
