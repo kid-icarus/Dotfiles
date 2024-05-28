@@ -222,10 +222,6 @@ nvim_lsp.lua_ls.setup {
   },
 }
 
-nvim_lsp.grammarly.setup {
-  on_attach = on_attach,
-}
-
 local ls = require 'luasnip'
 local types = require 'luasnip.util.types'
 
