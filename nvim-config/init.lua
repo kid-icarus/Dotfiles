@@ -18,3 +18,4 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Tell lazy to load the plugins from 'custom/plugins'
 require('lazy').setup { import = 'custom/plugins' }
+require 'work'

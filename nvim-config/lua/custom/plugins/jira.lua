@@ -12,6 +12,7 @@ return {
     }
     local t = require 'telescope'
     vim.keymap.set('n', '<leader>jv', '<cmd>Jira issue view<cr>', {})
+    vim.keymap.set('n', '<leader>jc', '<cmd>Jira issue create<cr>', {})
     vim.keymap.set('n', '<leader>jt', t.extensions.jira.transitions, {})
   end,
 }
