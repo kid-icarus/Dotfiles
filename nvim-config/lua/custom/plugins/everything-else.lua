@@ -12,7 +12,6 @@ return {
   'tpope/vim-markdown',
   'tpope/vim-repeat',
   'tpope/vim-surround',
-  'tpope/vim-unimpaired',
   'ntpeters/vim-better-whitespace',
   'schickling/vim-bufonly',
   'sheerun/vim-polyglot',
