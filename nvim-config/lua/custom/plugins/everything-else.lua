@@ -16,7 +16,6 @@ return {
   'schickling/vim-bufonly',
   'sheerun/vim-polyglot',
   'metakirby5/codi.vim',
-  'github/copilot.vim',
   {
     'jcdickinson/http.nvim',
     build = 'cargo build --workspace --release',
