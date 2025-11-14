@@ -5,7 +5,7 @@ export NVM_LAZY_LOAD=true
 export NVM_COMPLETION=false
 export NVM_NO_USE=true
 
-PATH="$HOME/.cargo/bin:/Users/ryank/bin:/opt/homebrew/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/usr/local/go/bin:$HOME/go/bin:$PATH"
+PATH="$HOME/bin:$HOME/.cargo/bin:/Users/ryank/bin:/opt/homebrew/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/usr/local/go/bin:$HOME/go/bin:${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 ZSH_THEME="cypher"
@@ -63,9 +63,15 @@ plugins=(git)
 source ~/.oh-my-zsh/oh-my-zsh.sh
 eval "$(starship init zsh)"
 alias d="cd ~/Projects/personal/Dotfiles"
+alias ls="eza --icons=always"
 
 export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix)/lib"
 export WASMTIME_HOME="$HOME/.wasmtime"
 
 export PATH="$WASMTIME_HOME/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+export GOPATH="$HOME/go"

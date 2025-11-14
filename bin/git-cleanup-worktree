@@ -1,0 +1,84 @@
+#!/bin/bash
+
+set -e
+
+# Check if a worktree path was provided
+if [ $# -eq 0 ]; then
+    echo "Usage: git cleanup-worktree <worktree-path>"
+    echo "Example: git cleanup-worktree /Users/derp/project/feature-branch"
+    exit 1
+fi
+
+WORKTREE_PATH="$1"
+
+# Resolve to absolute path
+if [[ ! "$WORKTREE_PATH" = /* ]]; then
+    WORKTREE_PATH="$(pwd)/$WORKTREE_PATH"
+fi
+
+# Check if the worktree exists
+if [ ! -d "$WORKTREE_PATH" ]; then
+    echo "Error: Worktree directory does not exist: $WORKTREE_PATH"
+    exit 1
+fi
+
+# Get the branch name for this worktree
+BRANCH=$(git -C "$WORKTREE_PATH" branch --show-current)
+
+if [ -z "$BRANCH" ]; then
+    echo "Error: Could not determine branch for worktree: $WORKTREE_PATH"
+    exit 1
+fi
+
+echo "Worktree: $WORKTREE_PATH"
+echo "Branch: $BRANCH"
+
+# Convert worktree path to Claude project directory name pattern
+# Replace / with -
+CLAUDE_PROJECT_BASE="$(echo "$WORKTREE_PATH" | tr '/' '-')"
+
+# Find all Claude project directories for this worktree (including subdirectories)
+CLAUDE_PROJECTS=()
+while IFS= read -r dir; do
+    CLAUDE_PROJECTS+=("$dir")
+done < <(find "$HOME/.claude/projects" -maxdepth 1 -type d -name "${CLAUDE_PROJECT_BASE}*" 2>/dev/null)
+
+if [ ${#CLAUDE_PROJECTS[@]} -gt 0 ]; then
+    echo "Claude projects to delete:"
+    for proj in "${CLAUDE_PROJECTS[@]}"; do
+        echo "  - $(basename "$proj")"
+    done
+else
+    echo "No Claude projects found"
+fi
+echo ""
+
+# Confirm deletion
+read -p "Delete worktree, branch, and Claude project(s)? (y/N) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Aborted."
+    exit 0
+fi
+
+# 1. Remove the worktree
+echo "Removing worktree..."
+git worktree remove "$WORKTREE_PATH" --force
+
+# 2. Delete the branch
+echo "Deleting branch..."
+git branch -D "$BRANCH"
+
+# 3. Delete all Claude project directories
+if [ ${#CLAUDE_PROJECTS[@]} -gt 0 ]; then
+    echo "Deleting Claude project(s)..."
+    for proj in "${CLAUDE_PROJECTS[@]}"; do
+        rm -rf "$proj"
+        echo "  Deleted: $(basename "$proj")"
+    done
+else
+    echo "No Claude project directories to delete"
+fi
+
+echo ""
+echo "✓ Cleanup complete!"

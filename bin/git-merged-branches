@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Show which branches have been merged/rebased into the main branch
+# Useful for rebase-heavy workflows where traditional --merged doesn't work
+
+# Determine the main branch (main or master)
+MAIN_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@')
+if [ -z "$MAIN_BRANCH" ]; then
+  # Fallback to common names
+  if git show-ref --verify --quiet refs/heads/main; then
+    MAIN_BRANCH="main"
+  elif git show-ref --verify --quiet refs/heads/master; then
+    MAIN_BRANCH="master"
+  else
+    echo "Error: Could not determine main branch"
+    exit 1
+  fi
+fi
+
+echo "Checking branches against $MAIN_BRANCH..."
+echo ""
+
+MERGED=()
+UNMERGED=()
+
+# Read branches line by line to handle worktree markers (+)
+while IFS= read -r line; do
+  # Remove leading/trailing whitespace and markers (*, +)
+  branch=$(echo "$line" | sed 's/^[*+ ]*//' | xargs)
+
+  # Skip empty lines or main branch
+  [ -z "$branch" ] && continue
+  [ "$branch" = "$MAIN_BRANCH" ] && continue
+
+  # Check if branch has any commits ahead of main
+  ahead=$(git rev-list --count "$MAIN_BRANCH".."$branch" 2>/dev/null)
+
+  # Skip branches with no commits (no work started)
+  if [ "$ahead" -eq 0 ]; then
+    continue
+  fi
+
+  # Count commits in branch that aren't in main (excluding those marked with =)
+  unique=$(git log --cherry-mark --right-only --no-merges --oneline "$MAIN_BRANCH"..."$branch" 2>/dev/null | grep -v "^=" | wc -l | xargs)
+
+  if [ "$unique" -eq 0 ]; then
+    MERGED+=("$branch")
+  else
+    UNMERGED+=("$branch:$unique")
+  fi
+done < <(git branch)
+
+if [ ${#MERGED[@]} -gt 0 ]; then
+  echo "✓ Merged branches (safe to delete):"
+  for branch in "${MERGED[@]}"; do
+    echo "  $branch"
+  done
+  echo ""
+fi
+
+if [ ${#UNMERGED[@]} -gt 0 ]; then
+  echo "✗ Unmerged branches:"
+  for item in "${UNMERGED[@]}"; do
+    branch="${item%:*}"
+    count="${item#*:}"
+    echo "  $branch ($count unique commits)"
+  done
+fi
+
+if [ ${#MERGED[@]} -eq 0 ] && [ ${#UNMERGED[@]} -eq 0 ]; then
+  echo "No branches found (besides $MAIN_BRANCH)"
+fi
