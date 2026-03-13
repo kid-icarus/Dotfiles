@@ -1,24 +1,12 @@
-require('nvim-treesitter.configs').setup {
-  -- A list of parser names, or "all"
-  ensure_installed = { 'c', 'lua', 'rust', 'typescript', 'tsx' },
+-- nvim 0.11+ has built-in treesitter highlighting, so we just need to
+-- install parsers via nvim-treesitter.
+require('nvim-treesitter').setup {}
 
-  -- Install parsers synchronously (only applied to `ensure_installed`)
-  sync_install = false,
-
-  -- Automatically install missing parsers when entering buffer
-  auto_install = true,
-
-  ---- If you need to change the installation directory of the parsers (see -> Advanced Setup)
-  -- parser_install_dir = "/some/path/to/store/parsers", -- Remember to run vim.opt.runtimepath:append("/some/path/to/store/parsers")!
-
-  highlight = {
-    -- `false` will disable the whole extension
-    enable = true,
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
+-- Install desired parsers if not already loadable
+local ensure_installed = { 'c', 'lua', 'rust', 'typescript', 'tsx' }
+for _, lang in ipairs(ensure_installed) do
+  local ok = pcall(vim.treesitter.language.add, lang)
+  if not ok then
+    require('nvim-treesitter').install(lang)
+  end
+end

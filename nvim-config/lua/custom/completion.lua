@@ -1,7 +1,6 @@
 -- For auto-completion, LSP configuration, and snippets
 local cmp = require 'cmp'
 local lspkind = require 'lspkind'
-local nvim_lsp = require 'lspconfig'
 
 local function rename_file()
   local source_file, target_file
@@ -42,29 +41,28 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  -- Enable completion triggered by <c-x><c-o>
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-  if client.name == 'ts_ls' then
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end
+-- Set up keymaps when an LSP attaches to a buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
+    if client and client.name == 'ts_ls' then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end
 
-  -- Mappings.
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, bufopts)
-end
+    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    -- K is mapped to hover by default in nvim 0.11
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+    vim.keymap.set('n', '<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, bufopts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+    vim.keymap.set('n', '<leader>f', vim.lsp.buf.format, bufopts)
+  end,
+})
 
 cmp.setup {
   snippet = {
@@ -131,23 +129,23 @@ cmp.setup.cmdline(':', {
   }),
 })
 
--- Set up lspconfig.
+-- Set up LSP servers using vim.lsp.config (nvim 0.11+)
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-nvim_lsp.ts_ls.setup {
+
+vim.lsp.config('*', {
   capabilities = capabilities,
-  on_attach = on_attach,
+})
+
+vim.lsp.config('ts_ls', {
   commands = {
     RenameFile = {
       rename_file,
       description = 'Rename File',
     },
   },
-}
+})
 
-nvim_lsp.rust_analyzer.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config('rust_analyzer', {
   settings = {
     ['rust-analyzer'] = {
       check = {
@@ -156,18 +154,13 @@ nvim_lsp.rust_analyzer.setup {
     },
   },
   cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
-  --{ 'cargo', 'clippy', '--all-features', '--workspace', '--message-format=json' },
-}
+})
 
-nvim_lsp.clangd.setup {
-  capabilities = capabilities,
-  on_attach = on_attach,
+vim.lsp.config('clangd', {
   cmd = { 'clangd', '--background-index', '--offset-encoding=utf-16' },
-}
+})
 
-nvim_lsp.gopls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config('gopls', {
   settings = {
     gopls = {
       usePlaceholders = true,
@@ -176,37 +169,28 @@ nvim_lsp.gopls.setup {
       },
     },
   },
-}
+})
 
-nvim_lsp.bashls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-}
-
-nvim_lsp.lua_ls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
+vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
         version = 'LuaJIT',
       },
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
         globals = { 'vim' },
       },
       workspace = {
-        -- Make the server aware of Neovim runtime files
         library = vim.api.nvim_get_runtime_file('', true),
       },
-      -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = {
         enable = false,
       },
     },
   },
-}
+})
+
+vim.lsp.enable({ 'ts_ls', 'rust_analyzer', 'clangd', 'gopls', 'bashls', 'lua_ls' })
 
 local ls = require 'luasnip'
 local types = require 'luasnip.util.types'

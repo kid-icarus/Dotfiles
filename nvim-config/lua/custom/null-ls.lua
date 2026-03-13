@@ -6,7 +6,6 @@ require('null-ls').setup {
     -- require('null-ls').builtins.formatting.eslint_d,
     require 'none-ls.formatting.eslint_d',
     require 'none-ls.diagnostics.eslint_d',
-    require('null-ls').builtins.formatting.rustfmt,
     require('null-ls').builtins.formatting.gofmt,
     require('null-ls').builtins.formatting.goimports,
     require('null-ls').builtins.formatting.golines,
