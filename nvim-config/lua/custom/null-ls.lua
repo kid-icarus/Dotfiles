@@ -11,7 +11,7 @@ require('null-ls').setup {
     require('null-ls').builtins.formatting.golines,
   },
   on_attach = function(client, bufnr)
-    if client.supports_method 'textDocument/formatting' then
+    if client:supports_method 'textDocument/formatting' then
       vim.api.nvim_clear_autocmds {
         buffer = bufnr,
         group = augroup,
