@@ -14,7 +14,6 @@ return {
   'tpope/vim-surround',
   'ntpeters/vim-better-whitespace',
   'schickling/vim-bufonly',
-  'sheerun/vim-polyglot',
   'metakirby5/codi.vim',
   {
     'jcdickinson/http.nvim',
