@@ -5,7 +5,7 @@ export NVM_LAZY_LOAD=true
 export NVM_COMPLETION=false
 export NVM_NO_USE=true
 
-PATH="$HOME/bin::$HOME/.local/bin:$HOME/.cargo/bin:/Users/ryank/bin:/opt/homebrew/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/usr/local/go/bin:$HOME/go/bin:${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+PATH="$HOME/bin:$HOME/.local/bin:$HOME/.cargo/bin:/Users/ryank/bin:/opt/homebrew/bin:/opt/homebrew/opt/libpq/bin:/Users/ryank/mongodb/bin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/mysql/bin:/usr/local/go/bin:$HOME/go/bin:${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 ZSH_THEME="cypher"
@@ -33,6 +33,8 @@ alias gry='git log --author="Ryan Kois" --since="1 week ago" --pretty="oneline" 
 alias gryl='git log --author="Ryan Kois" --since="1 week ago" --pretty="medium" --no-merges'
 alias gpp='git config --local user.email ryan.kois@gmail.com'
 alias gass="gh pr edit --add-assignee"
+alias gwtc='~/Projects/personal/Dotfiles/bin/git-cleanup-worktree'
+alias gwtca='~/Projects/personal/Dotfiles/bin/git-cleanup-merged-worktrees'
 
 alias npms='npm install --save'
 alias ws='open -a Webstorm .'
@@ -83,3 +85,9 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ryank/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ryank/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ryank/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ryank/google-cloud-sdk/completion.zsh.inc'; fi

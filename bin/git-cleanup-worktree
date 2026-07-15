@@ -2,14 +2,33 @@
 
 set -e
 
+# Parse args
+ASSUME_YES=false
+WORKTREE_PATH=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -y|--yes)
+            ASSUME_YES=true
+            ;;
+        -h|--help)
+            echo "Usage: git cleanup-worktree [-y|--yes] <worktree-path>"
+            echo "Example: git cleanup-worktree /Users/derp/project/feature-branch"
+            echo "  -y, --yes   Skip the confirmation prompt"
+            exit 0
+            ;;
+        *)
+            WORKTREE_PATH="$1"
+            ;;
+    esac
+    shift
+done
+
 # Check if a worktree path was provided
-if [ $# -eq 0 ]; then
-    echo "Usage: git cleanup-worktree <worktree-path>"
+if [ -z "$WORKTREE_PATH" ]; then
+    echo "Usage: git cleanup-worktree [-y|--yes] <worktree-path>"
     echo "Example: git cleanup-worktree /Users/derp/project/feature-branch"
     exit 1
 fi
-
-WORKTREE_PATH="$1"
 
 # Resolve to absolute path
 if [[ ! "$WORKTREE_PATH" = /* ]]; then
@@ -54,11 +73,13 @@ fi
 echo ""
 
 # Confirm deletion
-read -p "Delete worktree, branch, and Claude project(s)? (y/N) " -n 1 -r
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Aborted."
-    exit 0
+if [ "$ASSUME_YES" != true ]; then
+    read -p "Delete worktree, branch, and Claude project(s)? (y/N) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Aborted."
+        exit 0
+    fi
 fi
 
 # 1. Remove the worktree
