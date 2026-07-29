@@ -1,67 +1,135 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-# Parse args
+# Removes a linked worktree, its branch, and the matching ~/.claude/projects dirs.
+#
+# Every git call is anchored to the repo root with -C, never the caller's cwd, so
+# this works from anywhere — including when worktrees live *inside* the repo
+# (e.g. <repo>/worktrees/<branch>), where the old cwd-dependent version either
+# failed outright or removed the checkout and then died before deleting the branch.
+
+usage() {
+    echo "Usage: git cleanup-worktree [-y|--yes] [-f|--force] <worktree-path>"
+    echo "Example: git cleanup-worktree ~/Projects/repo/worktrees/feature-branch"
+    echo "  -y, --yes     Skip the confirmation prompt"
+    echo "  -f, --force   Remove even if live processes are using the worktree"
+}
+
 ASSUME_YES=false
+SKIP_GUARD=false
 WORKTREE_PATH=""
 while [ $# -gt 0 ]; do
     case "$1" in
-        -y|--yes)
-            ASSUME_YES=true
-            ;;
-        -h|--help)
-            echo "Usage: git cleanup-worktree [-y|--yes] <worktree-path>"
-            echo "Example: git cleanup-worktree /Users/derp/project/feature-branch"
-            echo "  -y, --yes   Skip the confirmation prompt"
-            exit 0
-            ;;
-        *)
-            WORKTREE_PATH="$1"
-            ;;
+        -y|--yes)   ASSUME_YES=true ;;
+        -f|--force) SKIP_GUARD=true ;;
+        -h|--help)  usage; exit 0 ;;
+        *)          WORKTREE_PATH="$1" ;;
     esac
     shift
 done
 
-# Check if a worktree path was provided
+die() { echo "Error: $*" >&2; exit 1; }
+
 if [ -z "$WORKTREE_PATH" ]; then
-    echo "Usage: git cleanup-worktree [-y|--yes] <worktree-path>"
-    echo "Example: git cleanup-worktree /Users/derp/project/feature-branch"
+    usage
     exit 1
 fi
+[ -d "$WORKTREE_PATH" ] || die "worktree directory does not exist: $WORKTREE_PATH"
 
-# Resolve to absolute path
-if [[ ! "$WORKTREE_PATH" = /* ]]; then
-    WORKTREE_PATH="$(pwd)/$WORKTREE_PATH"
-fi
+# Canonicalize: makes relative paths absolute and strips "." / trailing slashes, so
+# `gwtc .` produces a usable path instead of ".../feature-branch/." (which silently
+# broke the ~/.claude/projects name match).
+WORKTREE_PATH="$(cd "$WORKTREE_PATH" && pwd -P)"
 
-# Check if the worktree exists
-if [ ! -d "$WORKTREE_PATH" ]; then
-    echo "Error: Worktree directory does not exist: $WORKTREE_PATH"
-    exit 1
-fi
+git -C "$WORKTREE_PATH" rev-parse --is-inside-work-tree >/dev/null 2>&1 \
+    || die "not inside a git repository: $WORKTREE_PATH"
 
-# Get the branch name for this worktree
-BRANCH=$(git -C "$WORKTREE_PATH" branch --show-current)
+# The first `worktree` line of the porcelain listing is always the main worktree.
+MAIN_ROOT="$(git -C "$WORKTREE_PATH" worktree list --porcelain \
+    | awk '/^worktree /{print substr($0,10); exit}')"
+MAIN_ROOT="$(cd "$MAIN_ROOT" && pwd -P)"
 
-if [ -z "$BRANCH" ]; then
-    echo "Error: Could not determine branch for worktree: $WORKTREE_PATH"
-    exit 1
-fi
+[ "$WORKTREE_PATH" = "$MAIN_ROOT" ] && die "refusing to remove the main worktree: $MAIN_ROOT"
+
+git -C "$MAIN_ROOT" worktree list --porcelain \
+    | grep -qxF "worktree $WORKTREE_PATH" \
+    || die "not a registered worktree of $MAIN_ROOT: $WORKTREE_PATH"
+
+# Removing the directory you are standing in leaves the shell with a dangling cwd,
+# which makes every later git call fail ("Unable to read current working directory").
+case "$(pwd -P)" in
+    "$WORKTREE_PATH"|"$WORKTREE_PATH"/*)
+        die "you are inside the worktree — cd out first (e.g. cd $MAIN_ROOT)" ;;
+esac
+
+BRANCH="$(git -C "$WORKTREE_PATH" branch --show-current)"
 
 echo "Worktree: $WORKTREE_PATH"
-echo "Branch: $BRANCH"
+echo "Branch:   ${BRANCH:-<detached HEAD — no branch to delete>}"
+echo "Repo:     $MAIN_ROOT"
 
-# Convert worktree path to Claude project directory name pattern
-# Replace / with -
-CLAUDE_PROJECT_BASE="$(echo "$WORKTREE_PATH" | tr '/' '-')"
+# --- in-use guard ------------------------------------------------------------
+# Anything whose cwd is inside the worktree still owns it: terminal panes, agents,
+# dev servers, language servers. git happily deletes the directory out from under
+# them, orphaning the processes and leaving behind whatever they keep rewriting
+# (a Next.js dev server recreating .next/ is enough to defeat `worktree remove`).
+holders() {
+    lsof -d cwd -F pn -u "$(id -un)" 2>/dev/null | awk -v p="$WORKTREE_PATH" '
+        /^p/ { pid = substr($0, 2); next }
+        /^n/ { path = substr($0, 2); if (path == p || index(path, p "/") == 1) print pid }
+    ' | sort -un
+}
 
-# Find all Claude project directories for this worktree (including subdirectories)
+if [ "$SKIP_GUARD" != true ]; then
+    HOLDERS="$(holders || true)"
+    if [ -n "$HOLDERS" ]; then
+        echo ""
+        echo "Live processes are using this worktree:"
+        while IFS= read -r pid; do
+            [ -n "$pid" ] || continue
+            echo "  $(ps -o pid=,command= -p "$pid" 2>/dev/null | cut -c1-100)"
+        done <<< "$HOLDERS"
+        echo ""
+        echo "Close them first, then retry. If they are Herdr panes:"
+        echo "  herdr workspace list                  # find the workspace for this checkout"
+        echo "  herdr workspace close <workspace_id>  # kills its panes and agents"
+        echo "Or re-run with --force to remove anyway (processes will be orphaned)."
+        exit 1
+    fi
+fi
+
+# --- claude project dirs ----------------------------------------------------
+# Claude encodes a cwd by replacing "/" with "-", so a worktree's own dir is an
+# exact match and sessions started in a subdirectory become "<base>-<subdir>".
+# Matching "<base>*" as a bare prefix (the old behaviour) also swallows sibling
+# worktrees whose names merely start the same — and now that worktrees live under
+# the repo, the repo's own pattern is a prefix of every worktree's. So only accept
+# a suffix that resolves to a real subdirectory of this worktree. This must run
+# before removal, while the directory is still there to check against.
+CLAUDE_PROJECT_BASE="$(printf '%s' "$WORKTREE_PATH" | tr '/' '-')"
+PROJECTS_ROOT="$HOME/.claude/projects"
 CLAUDE_PROJECTS=()
-while IFS= read -r dir; do
-    CLAUDE_PROJECTS+=("$dir")
-done < <(find "$HOME/.claude/projects" -maxdepth 1 -type d -name "${CLAUDE_PROJECT_BASE}*" 2>/dev/null)
+CLAUDE_SKIPPED=()
+if [ -d "$PROJECTS_ROOT" ]; then
+    while IFS= read -r dir; do
+        [ -n "$dir" ] || continue
+        name="$(basename "$dir")"
+        if [ "$name" = "$CLAUDE_PROJECT_BASE" ]; then
+            CLAUDE_PROJECTS+=("$dir")
+            continue
+        fi
+        suffix="${name#"$CLAUDE_PROJECT_BASE"-}"
+        if [ -d "$WORKTREE_PATH/${suffix//-//}" ] || [ -d "$WORKTREE_PATH/$suffix" ]; then
+            CLAUDE_PROJECTS+=("$dir")
+        else
+            CLAUDE_SKIPPED+=("$name")
+        fi
+    done < <(find "$PROJECTS_ROOT" -maxdepth 1 -type d \
+        \( -name "$CLAUDE_PROJECT_BASE" -o -name "$CLAUDE_PROJECT_BASE-*" \) 2>/dev/null)
+fi
 
+echo ""
 if [ ${#CLAUDE_PROJECTS[@]} -gt 0 ]; then
     echo "Claude projects to delete:"
     for proj in "${CLAUDE_PROJECTS[@]}"; do
@@ -70,9 +138,14 @@ if [ ${#CLAUDE_PROJECTS[@]} -gt 0 ]; then
 else
     echo "No Claude projects found"
 fi
+if [ ${#CLAUDE_SKIPPED[@]} -gt 0 ]; then
+    echo "Not this worktree's, keeping:"
+    for name in "${CLAUDE_SKIPPED[@]}"; do
+        echo "  - $name"
+    done
+fi
 echo ""
 
-# Confirm deletion
 if [ "$ASSUME_YES" != true ]; then
     read -p "Delete worktree, branch, and Claude project(s)? (y/N) " -n 1 -r
     echo
@@ -82,23 +155,52 @@ if [ "$ASSUME_YES" != true ]; then
     fi
 fi
 
-# 1. Remove the worktree
+# 1. Remove the worktree, then confirm it actually went. `worktree remove` can fail
+#    while still reporting progress, and nothing below should run against a live
+#    checkout — a half-cleanup that deletes session history is worse than no cleanup.
 echo "Removing worktree..."
-git worktree remove "$WORKTREE_PATH" --force
+git -C "$MAIN_ROOT" worktree remove --force "$WORKTREE_PATH" || true
+if [ -d "$WORKTREE_PATH" ]; then
+    rm -rf "$WORKTREE_PATH"
+    git -C "$MAIN_ROOT" worktree prune
+fi
+[ -d "$WORKTREE_PATH" ] && die "could not remove $WORKTREE_PATH (still present — nothing else was deleted)"
 
-# 2. Delete the branch
-echo "Deleting branch..."
-git branch -D "$BRANCH"
+# 2. Prune the empty directory levels that exist only because the branch name
+#    contains slashes (worktrees/ryank/run-123-foo leaves behind worktrees/ryank/).
+#    Bounded by the number of slashes in the branch, and only when the checkout
+#    path actually mirrors the branch name — so the container the worktrees are
+#    kept in (worktrees/) is never swept up when it happens to be empty.
+if [ -n "$BRANCH" ]; then
+    case "$WORKTREE_PATH" in
+        */"$BRANCH")
+            depth="$(printf '%s' "$BRANCH" | tr -cd '/' | wc -c | tr -d ' ')"
+            parent="$(dirname "$WORKTREE_PATH")"
+            while [ "$depth" -gt 0 ] && [ "$parent" != "$MAIN_ROOT" ] && [ "$parent" != "/" ] \
+                  && [ -d "$parent" ] && [ -z "$(ls -A "$parent")" ]; do
+                rmdir "$parent"
+                parent="$(dirname "$parent")"
+                depth=$((depth - 1))
+            done
+            ;;
+    esac
+fi
 
-# 3. Delete all Claude project directories
+# 3. Delete the branch
+if [ -n "$BRANCH" ]; then
+    echo "Deleting branch..."
+    git -C "$MAIN_ROOT" branch -D "$BRANCH"
+else
+    echo "Detached HEAD — no branch to delete"
+fi
+
+# 4. Delete the Claude project directories
 if [ ${#CLAUDE_PROJECTS[@]} -gt 0 ]; then
     echo "Deleting Claude project(s)..."
     for proj in "${CLAUDE_PROJECTS[@]}"; do
         rm -rf "$proj"
         echo "  Deleted: $(basename "$proj")"
     done
-else
-    echo "No Claude project directories to delete"
 fi
 
 echo ""
